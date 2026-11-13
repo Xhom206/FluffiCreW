@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO МЕТА-ТЕГИ (добавлены для поиска в интернете) -->
+    <title>Fluffy Crew: Игра на английский язык</title>
+    <meta name="description" content="Fluffy Crew — это увлекательная браузерная игра для изучения английского языка. Проходи уроки, зарабатывай кубки, открывай новых персонажей и скины!">
+    <meta name="keywords" content="английский язык, изучение английского, игра английский, Fluffy Crew, Past Simple, Present Continuous, игры для школьников">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph (для красивых ссылок в Telegram, VK и др.) -->
+    <meta property="og:title" content="Fluffy Crew: Английский">
+    <meta property="og:description" content="Учи английский вместе с бандой пушистиков! Уроки, награды, сундуки и скины.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="YOUR_SITE_URL_HERE">
+    <!-- Можешь добавить сюда ссылку на красивую картинку для превью, если захочешь -->
+    <!-- <meta property="og:image" content="YOUR_IMAGE_URL_HERE"> -->
+
+    <style>
+        :root {
+            --bg-matte-green: #1A3B2B; 
+            --panel-green: #234D38;    
+            --dark-green: #0F241A;     
+            --brown: #78350F;          
+            --black: #0F0F0F;          
+            --white: #F3F4F6;          
+            --yellow: #FBBF24;         
+            --light-green: #10B981;    
+            --success-green: #047857;
+            --amelie-color: #64748B;
+            --pineapple-color: #EAB308;
+            --watermelon-color: #15803D;
+            --gold-color: #FFD700;
+            --halloween-orange: #EA580C;
+            --newyear-red: #DC2626;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background-color: var(--bg-matte-green);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+
+        .login-box {
+            background-color: var(--panel-green); padding: 40px; border-radius: 20px;
+            border: 4px solid var(--brown); box-shadow: 0 8px 0 var(--black);
+            text-align: center; max-width: 400px; width: 90%;
+        }
+
+        .login-box h2 { color: var(--yellow); margin-bottom: 20px; }
+
+        .login-box input {
+            width: 100%; padding: 15px; border-radius: 10px; border: 2px solid var(--black);
+            background-color: var(--dark-green); color: var(--white); font-size: 16px;
+            margin-bottom: 20px; outline: none;
+        }
+
+        .login-box input:focus { border-color: var(--light-green); }
+
+        .app-container { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            background-color: var(--black); padding: 15px 20px; border-radius: 15px;
+            border: 3px solid var(--brown); box-shadow: 0 4px 0 var(--brown);
+            flex-wrap: wrap; gap: 10px;
+        }
+
+        .header h1 { font-size: 24px; text-transform: uppercase; letter-spacing: 2px; color: var(--yellow); }
+        
+        .user-info { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .user-nick { font-weight: bold; color: var(--light-green); font-size: 16px; margin-right: 10px; }
+
+        .progress-counter, .coins-counter, .cups-counter {
+            font-weight: bold; font-size: 16px; background-color: var(--panel-green);
+            padding: 8px 15px; border-radius: 10px; border: 2px solid var(--light-green); color: var(--white);
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .coins-counter { border-color: var(--yellow); color: var(--yellow); }
+        .cups-counter { border-color: #F59E0B; color: #F59E0B; }
+
+        .coin-icon {
+            width: 24px; height: 24px; background-color: var(--yellow); border-radius: 50%;
+            border: 2px solid #b45309; display: flex; justify-content: center; align-items: center;
+            color: #78350F; font-size: 16px; font-weight: 900;
+            box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.4);
+        }
+
+        .tabs { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; }
+
+        .tab-btn {
+            flex: 1; padding: 15px 10px; background-color: var(--black); color: var(--white);
+            border: 3px solid var(--brown); border-radius: 15px; font-size: 15px; font-weight: bold;
+            cursor: pointer; box-shadow: 0 4px 0 var(--brown); transition: all 0.1s; white-space: nowrap;
+        }
+
+        .tab-btn:hover { background-color: #1a1a1a; }
+        .tab-btn.active { background-color: var(--panel-green); border-color: var(--light-green); box-shadow: 0 4px 0 var(--success-green); color: var(--yellow); }
+        .tab-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        .tab-content { display: none; margin-top: 10px; }
+        .tab-content.active { display: block; }
+
+        /* Сетка для магазина и персонажей */
+        .grid-layout {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;
+            padding: 20px; background-color: var(--panel-green); border: 3px solid var(--black); border-radius: 15px;
+        }
+
+        .char-card, .shop-card {
+            background-color: var(--dark-green); border: 3px solid var(--black); border-radius: 15px;
+            padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .char-card { cursor: pointer; }
+        .char-card.locked { opacity: 0.4; filter: grayscale(100%); cursor: not-allowed; }
+        .char-card.unlocked:hover { transform: translateY(-5px); border-color: var(--yellow); }
+
+        .char-avatar {
+            width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 40px; border: 3px solid var(--black); box-shadow: 0 4px 0 var(--black); margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .char-avatar.fruzi { background-color: var(--panel-green); }
+        .char-avatar.lakukaracha { background-color: var(--black); border-color: var(--yellow); color: var(--yellow); }
+        .char-avatar.amelie { background-color: var(--amelie-color); }
+        .char-avatar.homa { background-color: var(--brown); }
+        .char-avatar.pineapple { background-color: var(--pineapple-color); color: var(--black); border-color: var(--yellow); }
+        .char-avatar.watermelon { background-color: var(--watermelon-color); border-color: #ef4444; }
+        
+        /* Золотой скин (Арбуз) */
+        .char-avatar.watermelon.gold-skin { 
+            background: linear-gradient(135deg, #FFD700, #FFA500); 
+            border-color: #FFF8DC; 
+            box-shadow: 0 0 15px var(--gold-color), 0 4px 0 #b45309;
+            color: #fff;
+        }
+
+        /* Новогодний скин (Хома) */
+        .char-avatar.homa.newyear-skin {
+            background: linear-gradient(135deg, #DC2626, #991B1B);
+            border-color: #FCA5A5;
+            box-shadow: 0 0 15px #EF4444, 0 4px 0 #7F1D1D;
+        }
+
+        /* Хэллоуинский скин (Ананас) */
+        .char-avatar.pineapple.halloween-skin {
+            background: linear-gradient(135deg, #EA580C, #9A3412);
+            border-color: #FDBA74;
+            box-shadow: 0 0 15px #F97316, 0 4px 0 #7C2D12;
+            color: #fff;
+        }
+
+        .char-card h3, .shop-card h3 { font-size: 16px; margin-bottom: 5px; color: var(--yellow); }
+        .char-card p, .shop-card p { font-size: 12px; color: #cbd5e1; }
+
+        /* Кнопки */
+        .buy-btn {
+            margin-top: 10px; background-color: var(--yellow); color: var(--black); 
+            border: 2px solid var(--black); padding: 8px 15px; border-radius: 8px; 
+            font-weight: bold; cursor: pointer; transition: all 0.1s;
+            box-shadow: 0 3px 0 #b45309; width: 100%;
+        }
+        .buy-btn:hover { background-color: #f59e0b; }
+        .buy-btn:active { transform: translateY(3px); box-shadow: none; }
+        .buy-btn:disabled { background-color: var(--brown); color: #cbd5e1; box-shadow: 0 3px 0 #3b1b08; cursor: not-allowed; }
+
+        .equip-btn {
+            margin-top: 10px; background-color: var(--light-green); color: var(--black); 
+            border: 2px solid var(--black); padding: 8px 15px; border-radius: 8px; 
+            font-weight: bold; cursor: pointer; transition: all 0.1s;
+            box-shadow: 0 3px 0 #047857; width: 100%;
+        }
+        .equip-btn:hover { background-color: #059669; }
+        .equip-btn:active { transform: translateY(3px); box-shadow: none; }
+        .equip-btn:disabled { background-color: var(--success-green); color: white; box-shadow: 0 3px 0 #064E3B; cursor: default; }
+
+        /* Уроки */
+        .lesson-path { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
+        .lesson-node {
+            background-color: var(--black); border: 3px solid var(--brown); border-radius: 15px;
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 6px 0 var(--brown); cursor: pointer; transition: all 0.2s;
+        }
+        .lesson-node:hover { background-color: #1a1a1a; }
+        .lesson-node:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--brown); }
+        .lesson-node.completed { background-color: var(--dark-green); border-color: var(--light-green); box-shadow: 0 6px 0 var(--success-green); }
+
+        .lesson-info h3 { margin-bottom: 5px; font-size: 18px; color: var(--yellow); }
+        .lesson-info p { color: #d1d5db; font-size: 14px; }
+        .btn-play {
+            background-color: var(--light-green); color: var(--black); border: none; padding: 10px 20px;
+            border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer;
+            box-shadow: 0 4px 0 #047857; transition: all 0.1s;
+        }
+        .lesson-node.completed .btn-play { background-color: var(--brown); color: var(--white); box-shadow: 0 4px 0 #3b1b08; }
+        .btn-play:active { transform: translateY(4px); box-shadow: none; }
+
+        /* Путь наград (Trophy Road) */
+        .rewards-track {
+            display: flex; flex-direction: column; gap: 15px; padding: 20px;
+            background-color: var(--panel-green); border: 3px solid var(--black); border-radius: 15px;
+        }
+        .reward-node {
+            display: flex; align-items: center; gap: 15px; background-color: var(--dark-green);
+            padding: 15px 20px; border-radius: 15px; border: 3px solid var(--black);
+            opacity: 0.6; transition: all 0.3s;
+        }
+        .reward-node.claimed { border-color: var(--success-green); background-color: #064E3B; opacity: 1; }
+        .reward-node.available { border-color: var(--yellow); opacity: 1; box-shadow: 0 0 10px var(--yellow); }
+        
+        .reward-icon {
+            width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 24px; background-color: var(--black); border: 2px solid var(--brown);
+        }
+        .reward-node.claimed .reward-icon { border-color: var(--success-green); }
+        .reward-node.available .reward-icon { border-color: var(--yellow); animation: pulse 1.5s infinite; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .reward-info { flex: 1; }
+        .reward-info h4 { color: var(--white); margin-bottom: 3px; font-size: 16px; }
+        .reward-info p { font-size: 13px; color: #9ca3af; }
+        .reward-status { font-weight: bold; font-size: 14px; color: var(--light-green); }
+        .reward-node.available .reward-status { color: var(--yellow); }
+
+        /* Модальные окна */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); justify-content: center; align-items: flex-start;
+            padding-top: 50px; z-index: 100; overflow-y: auto;
+        }
+        .modal-content {
+            background-color: var(--panel-green); border: 4px solid var(--black); border-radius: 20px;
+            padding: 30px; width: 90%; max-width: 600px; text-align: left;
+            box-shadow: 0 8px 0 var(--black); position: relative; margin-bottom: 50px;
+        }
+        .modal-content h2 { margin-bottom: 20px; color: var(--yellow); text-align: center; border-bottom: 2px solid var(--black); padding-bottom: 10px; }
+        
+        /* Специфичные стили для меню скинов */
+        .skins-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 15px;
+        }
+        .skin-option {
+            background-color: var(--dark-green); border: 3px solid var(--black); border-radius: 15px;
+            padding: 15px; display: flex; flex-direction: column; align-items: center; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .skin-option:hover { transform: translateY(-3px); border-color: var(--light-green); }
+        .skin-option.active { border-color: var(--yellow); box-shadow: 0 0 10px var(--yellow); }
+        .skin-option.locked { opacity: 0.5; cursor: not-allowed; filter: grayscale(100%); }
+        .skin-option.locked:hover { transform: none; border-color: var(--black); }
+        .skin-option p { margin-top: 10px; font-weight: bold; font-size: 14px; color: var(--white); }
+        
+        /* Задания */
+        .question-block { background-color: var(--dark-green); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid var(--black); }
+        .question-block p { margin-bottom: 10px; font-weight: bold; font-size: 16px; }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option-btn {
+            background-color: var(--black); color: var(--white); border: 2px solid var(--brown);
+            padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; text-align: left; transition: background 0.2s;
+        }
+        .option-btn:hover { background-color: #1a1a1a; }
+        .option-btn.correct { background-color: var(--light-green); color: var(--black); border-color: var(--black); }
+        .option-btn.wrong { background-color: #EF4444; color: white; border-color: #B91C1C; }
+        .close-btn {
+            position: absolute; top: 15px; right: 15px; background: none; border: none;
+            color: var(--white); font-size: 24px; cursor: pointer; font-weight: bold;
+        }
+        .close-btn:hover { color: var(--yellow); }
+    </style>
+</head>
+<body>
+
+    <div class="login-overlay" id="loginOverlay" style="display: none;">
+        <div class="login-box">
+            <h2>Добро пожаловать в Fluffy Crew!</h2>
+            <p style="margin-bottom: 20px; color: #d1d5db;">Придумайте свой никнейм:</p>
+            <input type="text" id="nicknameInput" placeholder="Ваш ник..." maxlength="15">
+            <button class="btn-play" onclick="saveNickname()" style="width: 100%;">Войти в банду</button>
+        </div>
+    </div>
+
+    <div class="app-container" id="appContainer" style="display: none;">
+        <header class="header">
+            <h1>Fluffy crew</h1>
+            <div class="user-info">
+                <span class="user-nick" id="displayNick">Гость</span>
+                <div class="cups-counter">
+                    🏆 <span id="cupsDisplay">0</span>
+                </div>
+                <div class="coins-counter">
+                    <div class="coin-icon">$</div>
+                    <span id="coinsDisplay">0</span>
+                </div>
+                <div class="progress-counter" id="progressDisplay">Пройдено: 0 / 6</div>
+            </div>
+        </header>
+
+        <!-- Вкладки -->
+        <div class="tabs">
+            <button class="tab-btn active" id="tab-btn-lessons" onclick="switchTab('lessons')">📚 Обучение</button>
+            <button class="tab-btn" id="tab-btn-rewards" onclick="switchTab('rewards')">🏆 Награды</button>
+            <button class="tab-btn" id="tab-btn-characters" onclick="switchTab('characters')">🦸‍♂️ Персонажи</button>
+            <button class="tab-btn" id="tab-btn-shop" onclick="switchTab('shop')">🛒 Магазин</button>
+        </div>
+
+        <!-- Вкладка 1: Уроки -->
+        <div class="tab-content active" id="tab-lessons">
+            <div class="lesson-path" id="lessonPath"></div>
+        </div>
+
+        <!-- Вкладка 2: Награды -->
+        <div class="tab-content" id="tab-rewards">
+            <div class="rewards-track" id="rewardsTrack"></div>
+        </div>
+
+        <!-- Вкладка 3: Персонажи -->
+        <div class="tab-content" id="tab-characters">
+            <div class="grid-layout">
+                <div class="char-card locked" id="page-pet-fruzi" onclick="openSkinMenu('fruzi')">
+                    <div class="char-avatar fruzi">🐔</div>
+                    <h3>Фрузи</h3>
+                    <p>1-й урок</p>
+                </div>
+                <div class="char-card locked" id="page-pet-lakukaracha" onclick="openSkinMenu('lakukaracha')">
+                    <div class="char-avatar lakukaracha">😼</div>
+                    <h3>Лакукарача</h3>
+                    <p>2-й урок</p>
+                </div>
+                <div class="char-card locked" id="page-pet-amelie" onclick="openSkinMenu('amelie')">
+                    <div class="char-avatar amelie">🐰</div>
+                    <h3>Амели</h3>
+                    <p>3-й урок</p>
+                </div>
+                <div class="char-card locked" id="page-pet-homa" onclick="openSkinMenu('homa')">
+                    <div class="char-avatar homa" id="avatar-homa">🐹</div>
+                    <h3>Хома</h3>
+                    <p>4-й урок</p>
+                </div>
+                <div class="char-card locked" id="page-pet-pineapple" onclick="openSkinMenu('pineapple')">
+                    <div class="char-avatar pineapple" id="avatar-pineapple">🍍</div>
+                    <h3>Ананас Спинкинт</h3>
+                    <p>5-й урок</p>
+                </div>
+                <div class="char-card locked" id="page-pet-watermelon" onclick="openSkinMenu('watermelon')">
+                    <div class="char-avatar watermelon" id="avatar-watermelon">🍉</div>
+                    <h3>Секретный Арбуз</h3>
+                    <p>6-й урок</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка 4: Магазин -->
+        <div class="tab-content" id="tab-shop">
+            <div class="grid-layout">
+                <!-- Скин Золотой Арбуз -->
+                <div class="shop-card">
+                    <div class="char-avatar watermelon gold-skin" style="pointer-events: none;">🍉</div>
+                    <h3>Золотой Арбуз</h3>
+                    <p>Цена: 1000 <span class="coin-icon" style="display:inline-flex; width:16px; height:16px; font-size:10px;">$</span></p>
+                    <button class="buy-btn" id="buy-gold-watermelon" onclick="buySkin('gold-watermelon', 1000)">Купить</button>
+                    <button class="equip-btn" id="equip-gold-watermelon" onclick="openSkinMenu('watermelon')" style="display:none;">Выбрать</button>
+                </div>
+                
+                <!-- Скин Новогодняя Хома -->
+                <div class="shop-card" id="shop-card-newyear-homa">
+                    <div class="char-avatar homa newyear-skin" style="pointer-events: none;">🐹</div>
+                    <h3>Новогодняя Хома</h3>
+                    <p>Особая награда</p>
+                    <button class="equip-btn" id="equip-newyear-homa" onclick="openSkinMenu('homa')" style="display:none;">Выбрать</button>
+                    <p id="lock-text-newyear-homa" style="margin-top:10px; color:#cbd5e1; font-size:12px;">Откроется на Пути Наград</p>
+                </div>
+
+                <!-- Скин Хэллоуинский Спинкинт -->
+                <div class="shop-card" id="shop-card-halloween-pineapple">
+                    <div class="char-avatar pineapple halloween-skin" style="pointer-events: none;">🍍</div>
+                    <h3>Хэллоуин Спинкинт</h3>
+                    <p>Из сундуков</p>
+                    <button class="equip-btn" id="equip-halloween-pineapple" onclick="openSkinMenu('pineapple')" style="display:none;">Выбрать</button>
+                    <p id="lock-text-halloween-pineapple" style="margin-top:10px; color:#cbd5e1; font-size:12px;">Шанс выпадения из сундука (30%)</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Модальное окно для уроков -->
+    <div class="modal" id="lessonModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('lessonModal')">✕</button>
+            <h2 id="lessonTitle">Название урока</h2>
+            <div id="lessonContent"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для выбора скинов -->
+    <div class="modal" id="skinModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('skinModal')">✕</button>
+            <h2 id="skinModalTitle">Выбор скина</h2>
+            <div class="skins-grid" id="skinsGrid">
+                <!-- Скины будут генерироваться тут -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // База заданий
+        const lessonsData = {
+            'Past Simple': [
+                { q: "I ___ to school yesterday.", opts: ["go", "went", "gone"], c: 1 },
+                { q: "She ___ a new dress last week.", opts: ["buy", "bought", "buys"], c: 1 },
+                { q: "We ___ football two days ago.", opts: ["play", "played", "playing"], c: 1 },
+                { q: "He ___ his homework yesterday.", opts: ["did", "do", "does"], c: 0 },
+                { q: "They ___ to the cinema last night.", opts: ["go", "went", "gone"], c: 1 },
+                { q: "I ___ breakfast at 8 am.", opts: ["have", "had", "has"], c: 1 },
+                { q: "She ___ a letter to her friend.", opts: ["write", "wrote", "written"], c: 1 },
+                { q: "We ___ in the park last Sunday.", opts: ["walk", "walked", "walking"], c: 1 },
+                { q: "He ___ his car last month.", opts: ["sell", "sold", "sells"], c: 1 },
+                { q: "They ___ a cake for my birthday.", opts: ["make", "made", "making"], c: 1 },
+                { q: "I ___ him at the party.", opts: ["see", "saw", "seen"], c: 1 },
+                { q: "She ___ her keys yesterday.", opts: ["lose", "lost", "loses"], c: 1 },
+                { q: "We ___ a movie last night.", opts: ["watch", "watched", "watching"], c: 1 },
+                { q: "He ___ his leg last week.", opts: ["break", "broke", "broken"], c: 1 },
+                { q: "They ___ in London in 2010.", opts: ["live", "lived", "living"], c: 1 },
+                { q: "I ___ a book yesterday.", opts: ["read", "readed", "reading"], c: 0 },
+                { q: "She ___ the window.", opts: ["open", "opened", "opening"], c: 1 },
+                { q: "We ___ dinner at 7 pm.", opts: ["have", "had", "has"], c: 1 },
+                { q: "He ___ to the gym yesterday.", opts: ["go", "went", "gone"], c: 1 },
+                { q: "They ___ us a present.", opts: ["give", "gave", "given"], c: 1 }
+            ],
+            'Past Simple 2': [
+                { q: "___ you go to the park yesterday?", opts: ["Did", "Do", "Does"], c: 0 },
+                { q: "I didn't ___ TV last night.", opts: ["watch", "watched", "watching"], c: 0 },
+                { q: "Where ___ you go last summer?", opts: ["did", "do", "are"], c: 0 },
+                { q: "She didn't ___ her homework.", opts: ["do", "did", "does"], c: 0 },
+                { q: "___ he play football yesterday?", opts: ["Did", "Does", "Is"], c: 0 },
+                { q: "We didn't ___ to the party.", opts: ["go", "went", "gone"], c: 0 },
+                { q: "What ___ you buy at the shop?", opts: ["did", "do", "does"], c: 0 },
+                { q: "I didn't ___ breakfast today.", opts: ["have", "had", "has"], c: 0 },
+                { q: "___ they finish the project?", opts: ["Did", "Do", "Are"], c: 0 },
+                { q: "He didn't ___ the truth.", opts: ["tell", "told", "telling"], c: 0 },
+                { q: "When ___ she arrive?", opts: ["did", "do", "does"], c: 0 },
+                { q: "We didn't ___ the game.", opts: ["win", "won", "winning"], c: 0 },
+                { q: "___ you see him yesterday?", opts: ["Did", "Do", "Are"], c: 0 },
+                { q: "I didn't ___ the email.", opts: ["send", "sent", "sending"], c: 0 },
+                { q: "Why ___ he leave early?", opts: ["did", "do", "does"], c: 0 },
+                { q: "She didn't ___ the book.", opts: ["read", "readed", "reading"], c: 0 },
+                { q: "___ it rain yesterday?", opts: ["Did", "Do", "Is"], c: 0 },
+                { q: "They didn't ___ the car.", opts: ["sell", "sold", "selling"], c: 0 },
+                { q: "How ___ you learn English?", opts: ["did", "do", "are"], c: 0 },
+                { q: "I didn't ___ him at the station.", opts: ["see", "saw", "seen"], c: 0 }
+            ],
+            'Present Continuous': [
+                { q: "I ___ reading a book now.", opts: ["am", "is", "are"], c: 0 },
+                { q: "She ___ playing tennis.", opts: ["am", "is", "are"], c: 1 },
+                { q: "They ___ watching TV.", opts: ["am", "is", "are"], c: 2 },
+                { q: "He ___ doing his homework.", opts: ["am", "is", "are"], c: 1 },
+                { q: "We ___ going to the park.", opts: ["am", "is", "are"], c: 2 },
+                { q: "You ___ listening to music.", opts: ["am", "is", "are"], c: 2 },
+                { q: "It ___ raining outside.", opts: ["am", "is", "are"], c: 1 },
+                { q: "The cat ___ sleeping.", opts: ["am", "is", "are"], c: 1 },
+                { q: "The children ___ playing.", opts: ["am", "is", "are"], c: 2 },
+                { q: "My mother ___ cooking dinner.", opts: ["am", "is", "are"], c: 1 },
+                { q: "I ___ working right now.", opts: ["am", "is", "are"], c: 0 },
+                { q: "She ___ writing a letter.", opts: ["am", "is", "are"], c: 1 },
+                { q: "We ___ studying English.", opts: ["am", "is", "are"], c: 2 },
+                { q: "He ___ driving a car.", opts: ["am", "is", "are"], c: 1 },
+                { q: "They ___ eating lunch.", opts: ["am", "is", "are"], c: 2 },
+                { q: "The dog ___ barking.", opts: ["am", "is", "are"], c: 1 },
+                { q: "I ___ drinking coffee.", opts: ["am", "is", "are"], c: 0 },
+                { q: "She ___ singing a song.", opts: ["am", "is", "are"], c: 1 },
+                { q: "We ___ cleaning the house.", opts: ["am", "is", "are"], c: 2 },
+                { q: "You ___ learning new words.", opts: ["am", "is", "are"], c: 2 }
+            ],
+            'Present Continuous 2': [
+                { q: "I am ___ (run) in the park.", opts: ["runing", "running", "run"], c: 1 },
+                { q: "She is ___ (write) a test.", opts: ["writeing", "writing", "wrote"], c: 1 },
+                { q: "They are ___ (swim) in the pool.", opts: ["swiming", "swimming", "swim"], c: 1 },
+                { q: "He is ___ (sit) on the chair.", opts: ["siting", "sitting", "sit"], c: 1 },
+                { q: "We are ___ (make) a cake.", opts: ["makeing", "making", "made"], c: 1 },
+                { q: "I am not ___ (watch) TV.", opts: ["watch", "watching", "watched"], c: 1 },
+                { q: "She isn't ___ (listen) to me.", opts: ["listen", "listening", "listened"], c: 1 },
+                { q: "They aren't ___ (play) football.", opts: ["play", "playing", "played"], c: 1 },
+                { q: "Are you ___ (work) now?", opts: ["work", "working", "worked"], c: 1 },
+                { q: "Is he ___ (sleep)?", opts: ["sleep", "sleeping", "slept"], c: 1 },
+                { q: "What are you ___ (do)?", opts: ["do", "doing", "did"], c: 1 },
+                { q: "He is ___ (get) dressed.", opts: ["geting", "getting", "get"], c: 1 },
+                { q: "She is ___ (stop) the car.", opts: ["stoping", "stopping", "stop"], c: 1 },
+                { q: "They are ___ (run) fast.", opts: ["runing", "running", "ran"], c: 1 },
+                { q: "I am ___ (begin) to understand.", opts: ["begining", "beginning", "began"], c: 1 },
+                { q: "He is ___ (lie) on the sofa.", opts: ["lieing", "lying", "lied"], c: 1 },
+                { q: "We are ___ (die) of laughter.", opts: ["dieing", "dying", "died"], c: 1 },
+                { q: "She is ___ (tie) her shoes.", opts: ["tieing", "tying", "tied"], c: 1 },
+                { q: "I am ___ (have) lunch.", opts: ["haveing", "having", "had"], c: 1 },
+                { q: "They are ___ (travel) to Spain.", opts: ["traveling", "travelling", "travel"], c: 0 }
+            ],
+            'Future Simple': [
+                { q: "I ___ go to school tomorrow.", opts: ["will", "am", "did"], c: 0 },
+                { q: "She ___ call you later.", opts: ["will", "is", "was"], c: 0 },
+                { q: "They ___ visit us next week.", opts: ["will", "are", "were"], c: 0 },
+                { q: "He ___ help you with your work.", opts: ["will", "is", "was"], c: 0 },
+                { q: "We ___ have a party on Sunday.", opts: ["will", "are", "were"], c: 0 },
+                { q: "You ___ like this movie.", opts: ["will", "are", "were"], c: 0 },
+                { q: "I ___ not (won't) tell anyone.", opts: ["will", "am", "did"], c: 0 },
+                { q: "She ___ not (won't) come to the meeting.", opts: ["will", "is", "was"], c: 0 },
+                { q: "They ___ not (won't) buy a new car.", opts: ["will", "are", "were"], c: 0 },
+                { q: "He ___ not (won't) forget about it.", opts: ["will", "is", "was"], c: 0 },
+                { q: "___ you help me, please?", opts: ["Will", "Are", "Do"], c: 0 },
+                { q: "___ she be at home tomorrow?", opts: ["Will", "Is", "Was"], c: 0 },
+                { q: "I think it ___ rain tomorrow.", opts: ["will", "is", "was"], c: 0 },
+                { q: "Maybe I ___ go to the cinema.", opts: ["will", "am", "did"], c: 0 },
+                { q: "I promise I ___ do it.", opts: ["will", "am", "did"], c: 0 },
+                { q: "We ___ travel to London next year.", opts: ["will", "are", "were"], c: 0 },
+                { q: "He ___ be 20 years old next month.", opts: ["will", "is", "was"], c: 0 },
+                { q: "They ___ win the game, I'm sure.", opts: ["will", "are", "were"], c: 0 },
+                { q: "I ___ buy some bread on my way home.", opts: ["will", "am", "did"], c: 0 },
+                { q: "She ___ start her new job soon.", opts: ["will", "is", "was"], c: 0 }
+            ],
+            'Articles': [
+                { q: "I have ___ apple.", opts: ["a", "an", "the"], c: 1 },
+                { q: "She is ___ doctor.", opts: ["a", "an", "the"], c: 0 },
+                { q: "___ sun is shining.", opts: ["A", "An", "The"], c: 2 },
+                { q: "We saw ___ elephant at the zoo.", opts: ["a", "an", "the"], c: 1 },
+                { q: "He is ___ best student in our class.", opts: ["a", "an", "the"], c: 2 },
+                { q: "I want to buy ___ new car.", opts: ["a", "an", "the"], c: 0 },
+                { q: "Can you close ___ door, please?", opts: ["a", "an", "the"], c: 2 },
+                { q: "She eats ___ orange every day.", opts: ["a", "an", "the"], c: 1 },
+                { q: "___ moon is bright tonight.", opts: ["A", "An", "The"], c: 2 },
+                { q: "He is ___ honest man.", opts: ["a", "an", "the"], c: 1 },
+                { q: "I need ___ umbrella.", opts: ["a", "an", "the"], c: 1 },
+                { q: "They live in ___ big house.", opts: ["a", "an", "the"], c: 0 },
+                { q: "___ Earth is our planet.", opts: ["A", "An", "The"], c: 2 },
+                { q: "I saw ___ cat in the garden.", opts: ["a", "an", "the"], c: 0 },
+                { q: "She is ___ university student.", opts: ["a", "an", "the"], c: 0 },
+                { q: "We had ___ wonderful time.", opts: ["a", "an", "the"], c: 0 },
+                { q: "He plays ___ guitar very well.", opts: ["a", "an", "the"], c: 2 },
+                { q: "My mother is ___ teacher.", opts: ["a", "an", "the"], c: 0 },
+                { q: "I eat ___ egg for breakfast.", opts: ["a", "an", "the"], c: 1 },
+                { q: "___ sky is blue.", opts: ["A", "An", "The"], c: 2 }
+            ]
+        };
+
+        const lessonTitles = Object.keys(lessonsData);
+        const totalLevels = lessonTitles.length;
+        const unlockOrder = ['fruzi', 'lakukaracha', 'amelie', 'homa', 'pineapple', 'watermelon'];
+        
+        const CUPS_PER_CORRECT = 10;
+        const COINS_PER_CORRECT = 15;
+
+        // Определяем Путь Наград
+        const rewardsPath = [
+            { cups: 50, type: 'coins', amount: 1000, title: '1000 монет', icon: '💰' },
+            { cups: 100, type: 'chest', amount: 1, title: 'Сундук', icon: '🎁' },
+            { cups: 150, type: 'coins', amount: 300, title: '300 монет', icon: '💰' },
+            { cups: 250, type: 'chest', amount: 1, title: 'Сундук', icon: '🎁' },
+            { cups: 350, type: 'coins', amount: 500, title: '500 монет', icon: '💰' },
+            { cups: 500, type: 'skin', skinId: 'newyear-homa', title: 'Новогодняя Хома', icon: '🐹' },
+            { cups: 650, type: 'coins', amount: 1000, title: '1000 монет', icon: '💰' },
+            { cups: 800, type: 'chest', amount: 1, title: 'Сундук', icon: '🎁' },
+            { cups: 1000, type: 'coins', amount: 2000, title: '2000 монет', icon: '💰' }
+        ];
+
+        // База всех скинов в игре
+        const allSkins = {
+            'watermelon': [
+                { id: 'default', name: 'Обычный', icon: '🍉', class: '' },
+                { id: 'gold-watermelon', name: 'Золотой', icon: '🍉', class: 'gold-skin' }
+            ],
+            'homa': [
+                { id: 'default', name: 'Обычный', icon: '🐹', class: '' },
+                { id: 'newyear-homa', name: 'Новогодний', icon: '🐹', class: 'newyear-skin' }
+            ],
+            'pineapple': [
+                { id: 'default', name: 'Обычный', icon: '🍍', class: '' },
+                { id: 'halloween-pineapple', name: 'Хэллоуин', icon: '🍍', class: 'halloween-skin' }
+            ],
+            'fruzi': [{ id: 'default', name: 'Обычный', icon: '🐔', class: '' }],
+            'lakukaracha': [{ id: 'default', name: 'Обычный', icon: '😼', class: '' }],
+            'amelie': [{ id: 'default', name: 'Обычный', icon: '🐰', class: '' }]
+        };
+
+        let currentUser = "";
+        let completedLevels = new Set();
+        let totalCoins = 0;
+        let totalCups = 0;
+        
+        // Инвентарь пользователя
+        let inventory = {
+            skins: [],       
+            equipped: {},    
+            claimedRewards: [] 
+        };
+
+        const modal = document.getElementById('lessonModal');
+        const titleElement = document.getElementById('lessonTitle');
+        const contentElement = document.getElementById('lessonContent');
+        const skinModal = document.getElementById('skinModal');
+        const skinModalTitle = document.getElementById('skinModalTitle');
+        const skinsGrid = document.getElementById('skinsGrid');
+        
+        const progressDisplay = document.getElementById('progressDisplay');
+        const coinsDisplay = document.getElementById('coinsDisplay');
+        const cupsDisplay = document.getElementById('cupsDisplay');
+        const displayNick = document.getElementById('displayNick');
+        const loginOverlay = document.getElementById('loginOverlay');
+        const appContainer = document.getElementById('appContainer');
+        const lessonPath = document.getElementById('lessonPath');
+        const rewardsTrack = document.getElementById('rewardsTrack');
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Меню выбора скинов
+        function openSkinMenu(petId) {
+            const card = document.getElementById(`page-pet-${petId}`);
+            if (card.classList.contains('locked')) {
+                alert("Этот персонаж еще заблокирован. Проходите уроки, чтобы открыть его!");
+                return;
+            }
+
+            const petNames = {
+                'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 
+                'homa': 'Хома', 'pineapple': 'Ананас Спинкинт', 'watermelon': 'Секретный Арбуз'
+            };
+            skinModalTitle.innerText = `Облик: ${petNames[petId]}`;
+            skinsGrid.innerHTML = '';
+
+            const skinsForPet = allSkins[petId] || [];
+            const currentEquipped = (inventory.equipped && inventory.equipped[petId]) ? inventory.equipped[petId] : 'default';
+
+            skinsForPet.forEach(skin => {
+                const isOwned = skin.id === 'default' || inventory.skins.includes(skin.id);
+                const isEquipped = currentEquipped === skin.id;
+
+                const div = document.createElement('div');
+                div.className = `skin-option ${isEquipped ? 'active' : ''} ${!isOwned ? 'locked' : ''}`;
+                
+                div.innerHTML = `
+                    <div class="char-avatar ${petId} ${skin.class}" style="pointer-events: none;">${skin.icon}</div>
+                    <p>${skin.name}</p>
+                `;
+
+                if (isOwned && !isEquipped) {
+                    div.onclick = () => {
+                        if (!inventory.equipped) inventory.equipped = {};
+                        inventory.equipped[petId] = skin.id;
+                        saveProgress();
+                        openSkinMenu(petId); // Перерисовываем меню
+                    };
+                } else if (!isOwned) {
+                    div.innerHTML += `<p style="font-size:10px; color:#EF4444; margin-top:5px;">Не открыт</p>`;
+                }
+
+                skinsGrid.appendChild(div);
+            });
+
+            skinModal.style.display = 'flex';
+        }
+
+        function init() {
+            const savedNick = localStorage.getItem('fluffy_nick');
+            if (savedNick) {
+                currentUser = savedNick;
+                loadProgress();
+                showApp();
+            } else {
+                loginOverlay.style.display = 'flex';
+            }
+        }
+
+        function saveNickname() {
+            const input = document.getElementById('nicknameInput');
+            const nick = input.value.trim();
+            if (nick.length < 2) { alert("Ник должен содержать хотя бы 2 символа!"); return; }
+            currentUser = nick;
+            localStorage.setItem('fluffy_nick', currentUser);
+            loginOverlay.style.display = 'none';
+            showApp();
+        }
+
+        function loadProgress() {
+            const savedProgress = localStorage.getItem(`fluffy_progress_${currentUser}`);
+            if (savedProgress) {
+                completedLevels = new Set(JSON.parse(savedProgress));
+            } else {
+                completedLevels = new Set();
+            }
+
+            totalCoins = parseInt(localStorage.getItem(`fluffy_coins_${currentUser}`)) || 0;
+            totalCups = parseInt(localStorage.getItem(`fluffy_cups_${currentUser}`)) || 0;
+
+            const savedInventory = localStorage.getItem(`fluffy_inventory_${currentUser}`);
+            if (savedInventory) {
+                inventory = JSON.parse(savedInventory);
+                if (typeof inventory.equipped === 'string') {
+                    if (inventory.equipped === 'gold-watermelon') inventory.equipped = { watermelon: 'gold-watermelon' };
+                    else inventory.equipped = {};
+                }
+                if (!inventory.claimedRewards) inventory.claimedRewards = [];
+            }
+        }
+
+        function saveProgress() {
+            const arr = Array.from(completedLevels);
+            localStorage.setItem(`fluffy_progress_${currentUser}`, JSON.stringify(arr));
+            localStorage.setItem(`fluffy_coins_${currentUser}`, totalCoins.toString());
+            localStorage.setItem(`fluffy_cups_${currentUser}`, totalCups.toString());
+            localStorage.setItem(`fluffy_inventory_${currentUser}`, JSON.stringify(inventory));
+            
+            updateProgressUI();
+            updatePetsUI(); 
+            updateShopUI();
+            updateSkinsUI();
+            renderRewards();
+        }
+
+        function addRewards(coins, cups) {
+            totalCoins += coins;
+            totalCups += cups;
+            coinsDisplay.innerText = totalCoins;
+            cupsDisplay.innerText = totalCups;
+            
+            localStorage.setItem(`fluffy_coins_${currentUser}`, totalCoins.toString());
+            localStorage.setItem(`fluffy_cups_${currentUser}`, totalCups.toString());
+            
+            updateShopUI();
+            renderRewards();
+        }
+
+        function showApp() {
+            appContainer.style.display = 'flex';
+            displayNick.innerText = currentUser;
+            coinsDisplay.innerText = totalCoins;
+            cupsDisplay.innerText = totalCups;
+            renderLessons();
+            updateProgressUI();
+            updatePetsUI(); 
+            updateShopUI();
+            updateSkinsUI();
+            renderRewards();
+        }
+
+        function renderLessons() {
+            lessonPath.innerHTML = '';
+            lessonTitles.forEach((title, index) => {
+                const isCompleted = completedLevels.has(title);
+                const node = document.createElement('div');
+                node.className = `lesson-node ${isCompleted ? 'completed' : ''}`;
+                node.id = `node-${title}`;
+                node.onclick = () => startLesson(title);
+                node.innerHTML = `
+                    <div class="lesson-info">
+                        <h3>Урок ${index + 1}: ${title}</h3>
+                        <p>${lessonsData[title].length} заданий</p>
+                    </div>
+                    <button class="btn-play">${isCompleted ? 'Повторить' : 'Начать'}</button>
+                `;
+                lessonPath.appendChild(node);
+            });
+        }
+
+        function updateProgressUI() {
+            progressDisplay.innerText = `Пройдено: ${completedLevels.size} / ${totalLevels}`;
+        }
+
+        function updatePetsUI() {
+            const levelsDone = completedLevels.size;
+            unlockOrder.forEach(petId => {
+                const el = document.getElementById(`page-pet-${petId}`);
+                if(el) { el.classList.remove('unlocked'); el.classList.add('locked'); }
+            });
+
+            for (let i = 0; i < levelsDone; i++) {
+                if (i < unlockOrder.length) {
+                    const petId = unlockOrder[i];
+                    const el = document.getElementById(`page-pet-${petId}`);
+                    if(el) { el.classList.remove('locked'); el.classList.add('unlocked'); }
+                }
+            }
+        }
+
+        // --- НАГРАДЫ (TROPHY ROAD) ---
+        function renderRewards() {
+            rewardsTrack.innerHTML = '';
+            rewardsPath.forEach((reward, index) => {
+                const isClaimed = inventory.claimedRewards.includes(index);
+                const isAvailable = totalCups >= reward.cups && !isClaimed;
+                
+                let statusText = `Нужно ${reward.cups} 🏆`;
+                let className = 'reward-node';
+
+                if (isClaimed) {
+                    statusText = 'Получено ✓';
+                    className += ' claimed';
+                } else if (isAvailable) {
+                    statusText = 'Забрать!';
+                    className += ' available';
+                }
+
+                const node = document.createElement('div');
+                node.className = className;
+                node.innerHTML = `
+                    <div class="reward-icon">${reward.icon}</div>
+                    <div class="reward-info">
+                        <h4>${reward.title}</h4>
+                        <p>Награда за ${reward.cups} кубков</p>
+                    </div>
+                    <div class="reward-status">${statusText}</div>
+                `;
+                
+                if (isAvailable) {
+                    node.style.cursor = 'pointer';
+                    node.onclick = () => claimReward(index);
+                }
+                rewardsTrack.appendChild(node);
+            });
+        }
+
+        function claimReward(index) {
+            const reward = rewardsPath[index];
+            if (inventory.claimedRewards.includes(index) || totalCups < reward.cups) return;
+
+            inventory.claimedRewards.push(index);
+
+            if (reward.type === 'coins') {
+                totalCoins += reward.amount;
+                alert(`Вы получили ${reward.amount} монет!`);
+            } else if (reward.type === 'skin') {
+                if (!inventory.skins.includes(reward.skinId)) {
+                    inventory.skins.push(reward.skinId);
+                }
+                alert(`Вы открыли скин: ${reward.title}!`);
+            } else if (reward.type === 'chest') {
+                openChest();
+            }
+
+            saveProgress();
+        }
+
+        function openChest() {
+            const roll = Math.random();
+            if (roll <= 0.7) {
+                totalCoins += 100;
+                alert('🎁 Сундук открыт! Внутри 100 монет! 💰');
+            } else {
+                const skinId = 'halloween-pineapple';
+                if (!inventory.skins.includes(skinId)) {
+                    inventory.skins.push(skinId);
+                    alert('🎁 Сундук открыт! ОГО! Вам выпал Хэллоуинский скин для Ананаса Спинкинта! 🍍🎃');
+                } else {
+                    totalCoins += 100;
+                    alert('🎁 Сундук открыт! Вам выпал повторный скин, поэтому мы дали 100 монет в качестве компенсации! 💰');
+                }
+            }
+        }
+
+        // --- МАГАЗИН И СКИНЫ ---
+        function updateShopUI() {
+            // Золотой арбуз
+            const buyGold = document.getElementById('buy-gold-watermelon');
+            const equipGold = document.getElementById('equip-gold-watermelon');
+            if (inventory.skins.includes('gold-watermelon')) {
+                buyGold.style.display = 'none';
+                equipGold.style.display = 'block';
+            } else {
+                buyGold.style.display = 'block';
+                equipGold.style.display = 'none';
+                buyGold.disabled = totalCoins < 1000;
+                buyGold.innerText = totalCoins < 1000 ? 'Не хватает монет' : 'Купить (1000)';
+            }
+
+            // Новогодняя Хома
+            const equipNewYear = document.getElementById('equip-newyear-homa');
+            const lockTextNewYear = document.getElementById('lock-text-newyear-homa');
+            if (inventory.skins.includes('newyear-homa')) {
+                lockTextNewYear.style.display = 'none';
+                equipNewYear.style.display = 'block';
+            } else {
+                lockTextNewYear.style.display = 'block';
+                equipNewYear.style.display = 'none';
+            }
+
+            // Хэллоуин Спинкинт
+            const equipHalloween = document.getElementById('equip-halloween-pineapple');
+            const lockTextHalloween = document.getElementById('lock-text-halloween-pineapple');
+            if (inventory.skins.includes('halloween-pineapple')) {
+                lockTextHalloween.style.display = 'none';
+                equipHalloween.style.display = 'block';
+            } else {
+                lockTextHalloween.style.display = 'block';
+                equipHalloween.style.display = 'none';
+            }
+        }
+
+        function buySkin(skinId, price) {
+            if (totalCoins >= price) {
+                totalCoins -= price;
+                coinsDisplay.innerText = totalCoins;
+                inventory.skins.push(skinId);
+                saveProgress();
+                alert('Покупка успешна! Скин добавлен в инвентарь.');
+            } else {
+                alert('Недостаточно монет!');
+            }
+        }
+
+        function updateSkinsUI() {
+            // Арбуз
+            const avatarWatermelon = document.getElementById('avatar-watermelon');
+            if (inventory.equipped && inventory.equipped['watermelon'] === 'gold-watermelon') {
+                avatarWatermelon.classList.add('gold-skin');
+            } else {
+                avatarWatermelon.classList.remove('gold-skin');
+            }
+
+            // Хома
+            const avatarHoma = document.getElementById('avatar-homa');
+            if (inventory.equipped && inventory.equipped['homa'] === 'newyear-homa') {
+                avatarHoma.classList.add('newyear-skin');
+            } else {
+                avatarHoma.classList.remove('newyear-skin');
+            }
+
+            // Спинкинт
+            const avatarPineapple = document.getElementById('avatar-pineapple');
+            if (inventory.equipped && inventory.equipped['pineapple'] === 'halloween-pineapple') {
+                avatarPineapple.classList.add('halloween-skin');
+            } else {
+                avatarPineapple.classList.remove('halloween-skin');
+            }
+        }
+
+        function markAsCompleted(topic) {
+            if (!completedLevels.has(topic)) {
+                completedLevels.add(topic);
+                saveProgress();
+                renderLessons();
+                
+                const levelsDone = completedLevels.size;
+                if (levelsDone === 5) {
+                    alert("Поздравляем! Вся банда в сборе! Ты открыл секретного персонажа: Ананас Спинкинт 🍍");
+                } else if (levelsDone === 6) {
+                    alert("Ого! Ты прошел все уроки и открыл Секретного Арбуза 🍉!");
+                } else if (levelsDone < unlockOrder.length) {
+                    const newPetId = unlockOrder[levelsDone - 1];
+                    const petNames = { 'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 'homa': 'Хома' };
+                    alert(`Уровень пройден! Ты открыл нового члена банды: ${petNames[newPetId]}! Загляни во вкладку "Персонажи".`);
+                } else {
+                    alert(`Уровень пройден!`);
+                }
+            }
+        }
+
+        function startLesson(topic) {
+            titleElement.innerText = `Урок: ${topic}`;
+            contentElement.innerHTML = '';
+            const questions = lessonsData[topic]; 
+            let answeredCount = 0;
+            let correctCount = 0;
+
+            questions.forEach((q, index) => {
+                const block = document.createElement('div');
+                block.className = 'question-block';
+                const questionText = document.createElement('p');
+                questionText.innerText = `${index + 1}. ${q.q}`;
+                block.appendChild(questionText);
+
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+
+                q.opts.forEach((opt, optIndex) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerText = opt;
+                    
+                    btn.onclick = () => {
+                        const allBtns = optionsDiv.querySelectorAll('.option-btn');
+                        allBtns.forEach(b => { b.classList.remove('correct', 'wrong'); b.disabled = true; });
+
+                        if (optIndex === q.c) {
+                            btn.classList.add('correct');
+                            btn.innerText += ' ✓';
+                            correctCount++;
+                            addRewards(COINS_PER_CORRECT, CUPS_PER_CORRECT);
+                        } else {
+                            btn.classList.add('wrong');
+                            btn.innerText += ' ✕';
+                            allBtns[q.c].classList.add('correct');
+                        }
+
+                        answeredCount++;
+                        if (answeredCount === questions.length) {
+                            if (correctCount >= Math.floor(questions.length * 0.8)) {
+                                markAsCompleted(topic);
+                            } else {
+                                alert(`Уровень не пройден. Правильных ответов: ${correctCount} из ${questions.length}. Нужно хотя бы 80%.`);
+                            }
+                        }
+                    };
+                    optionsDiv.appendChild(btn);
+                });
+                block.appendChild(optionsDiv);
+                contentElement.appendChild(block);
+            });
+            modal.style.display = 'flex';
+        }
+
+        function closeModal(modalId) { 
+            document.getElementById(modalId).style.display = 'none'; 
+        }
+        
+        window.onclick = function(event) { 
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none'; 
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
