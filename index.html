@@ -4,19 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO МЕТА-ТЕГИ (добавлены для поиска в интернете) -->
     <title>Fluffy Crew: Игра на английский язык</title>
-    <meta name="description" content="Fluffy Crew — это увлекательная браузерная игра для изучения английского языка. Проходи уроки, зарабатывай кубки, открывай новых персонажей и скины!">
-    <meta name="keywords" content="английский язык, изучение английского, игра английский, Fluffy Crew, Past Simple, Present Continuous, игры для школьников">
+    <meta name="description" content="Fluffy Crew — это увлекательная браузерная игра для изучения английского языка.">
     <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph (для красивых ссылок в Telegram, VK и др.) -->
-    <meta property="og:title" content="Fluffy Crew: Английский">
-    <meta property="og:description" content="Учи английский вместе с бандой пушистиков! Уроки, награды, сундуки и скины.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="YOUR_SITE_URL_HERE">
-    <!-- Можешь добавить сюда ссылку на красивую картинку для превью, если захочешь -->
-    <!-- <meta property="og:image" content="YOUR_IMAGE_URL_HERE"> -->
 
     <style>
         :root {
@@ -35,6 +25,7 @@
             --gold-color: #FFD700;
             --halloween-orange: #EA580C;
             --newyear-red: #DC2626;
+            --pink-color: #EC4899;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -113,7 +104,6 @@
         .tab-content { display: none; margin-top: 10px; }
         .tab-content.active { display: block; }
 
-        /* Сетка для магазина и персонажей */
         .grid-layout {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;
             padding: 20px; background-color: var(--panel-green); border: 3px solid var(--black); border-radius: 15px;
@@ -123,6 +113,7 @@
             background-color: var(--dark-green); border: 3px solid var(--black); border-radius: 15px;
             padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center;
             transition: transform 0.2s;
+            position: relative;
         }
 
         .char-card { cursor: pointer; }
@@ -142,31 +133,43 @@
         .char-avatar.pineapple { background-color: var(--pineapple-color); color: var(--black); border-color: var(--yellow); }
         .char-avatar.watermelon { background-color: var(--watermelon-color); border-color: #ef4444; }
         
-        /* Золотой скин (Арбуз) */
+        /* Скины */
         .char-avatar.watermelon.gold-skin { 
             background: linear-gradient(135deg, #FFD700, #FFA500); 
             border-color: #FFF8DC; 
             box-shadow: 0 0 15px var(--gold-color), 0 4px 0 #b45309;
             color: #fff;
         }
-
-        /* Новогодний скин (Хома) */
         .char-avatar.homa.newyear-skin {
             background: linear-gradient(135deg, #DC2626, #991B1B);
             border-color: #FCA5A5;
             box-shadow: 0 0 15px #EF4444, 0 4px 0 #7F1D1D;
         }
-
-        /* Хэллоуинский скин (Ананас) */
         .char-avatar.pineapple.halloween-skin {
             background: linear-gradient(135deg, #EA580C, #9A3412);
             border-color: #FDBA74;
             box-shadow: 0 0 15px #F97316, 0 4px 0 #7C2D12;
             color: #fff;
         }
+        .char-avatar.amelie.pink-skin {
+            background: linear-gradient(135deg, #EC4899, #BE185D);
+            border-color: #FBCFE8;
+            box-shadow: 0 0 15px #F472B6, 0 4px 0 #831843;
+            color: #fff;
+        }
 
         .char-card h3, .shop-card h3 { font-size: 16px; margin-bottom: 5px; color: var(--yellow); }
         .char-card p, .shop-card p { font-size: 12px; color: #cbd5e1; }
+
+        /* Плашка "Подарок!" */
+        .promo-badge {
+            position: absolute; top: -10px; right: -10px;
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: white; font-size: 10px; font-weight: bold;
+            padding: 4px 8px; border-radius: 8px; border: 2px solid var(--black);
+            box-shadow: 0 2px 0 var(--black); z-index: 10; text-transform: uppercase;
+            transform: rotate(5deg); pointer-events: none;
+        }
 
         /* Кнопки */
         .buy-btn {
@@ -210,7 +213,7 @@
         .lesson-node.completed .btn-play { background-color: var(--brown); color: var(--white); box-shadow: 0 4px 0 #3b1b08; }
         .btn-play:active { transform: translateY(4px); box-shadow: none; }
 
-        /* Путь наград (Trophy Road) */
+        /* Награды */
         .rewards-track {
             display: flex; flex-direction: column; gap: 15px; padding: 20px;
             background-color: var(--panel-green); border: 3px solid var(--black); border-radius: 15px;
@@ -230,11 +233,7 @@
         .reward-node.claimed .reward-icon { border-color: var(--success-green); }
         .reward-node.available .reward-icon { border-color: var(--yellow); animation: pulse 1.5s infinite; }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
         .reward-info { flex: 1; }
         .reward-info h4 { color: var(--white); margin-bottom: 3px; font-size: 16px; }
@@ -255,7 +254,6 @@
         }
         .modal-content h2 { margin-bottom: 20px; color: var(--yellow); text-align: center; border-bottom: 2px solid var(--black); padding-bottom: 10px; }
         
-        /* Специфичные стили для меню скинов */
         .skins-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 15px;
         }
@@ -270,7 +268,6 @@
         .skin-option.locked:hover { transform: none; border-color: var(--black); }
         .skin-option p { margin-top: 10px; font-weight: bold; font-size: 14px; color: var(--white); }
         
-        /* Задания */
         .question-block { background-color: var(--dark-green); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid var(--black); }
         .question-block p { margin-bottom: 10px; font-weight: bold; font-size: 16px; }
         .options { display: flex; flex-direction: column; gap: 10px; }
@@ -304,18 +301,12 @@
             <h1>Fluffy crew</h1>
             <div class="user-info">
                 <span class="user-nick" id="displayNick">Гость</span>
-                <div class="cups-counter">
-                    🏆 <span id="cupsDisplay">0</span>
-                </div>
-                <div class="coins-counter">
-                    <div class="coin-icon">$</div>
-                    <span id="coinsDisplay">0</span>
-                </div>
+                <div class="cups-counter">🏆 <span id="cupsDisplay">0</span></div>
+                <div class="coins-counter"><div class="coin-icon">$</div><span id="coinsDisplay">0</span></div>
                 <div class="progress-counter" id="progressDisplay">Пройдено: 0 / 6</div>
             </div>
         </header>
 
-        <!-- Вкладки -->
         <div class="tabs">
             <button class="tab-btn active" id="tab-btn-lessons" onclick="switchTab('lessons')">📚 Обучение</button>
             <button class="tab-btn" id="tab-btn-rewards" onclick="switchTab('rewards')">🏆 Награды</button>
@@ -323,53 +314,32 @@
             <button class="tab-btn" id="tab-btn-shop" onclick="switchTab('shop')">🛒 Магазин</button>
         </div>
 
-        <!-- Вкладка 1: Уроки -->
-        <div class="tab-content active" id="tab-lessons">
-            <div class="lesson-path" id="lessonPath"></div>
-        </div>
+        <div class="tab-content active" id="tab-lessons"><div class="lesson-path" id="lessonPath"></div></div>
+        <div class="tab-content" id="tab-rewards"><div class="rewards-track" id="rewardsTrack"></div></div>
 
-        <!-- Вкладка 2: Награды -->
-        <div class="tab-content" id="tab-rewards">
-            <div class="rewards-track" id="rewardsTrack"></div>
-        </div>
-
-        <!-- Вкладка 3: Персонажи -->
         <div class="tab-content" id="tab-characters">
             <div class="grid-layout">
                 <div class="char-card locked" id="page-pet-fruzi" onclick="openSkinMenu('fruzi')">
-                    <div class="char-avatar fruzi">🐔</div>
-                    <h3>Фрузи</h3>
-                    <p>1-й урок</p>
+                    <div class="char-avatar fruzi">🐔</div><h3>Фрузи</h3><p>1-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-lakukaracha" onclick="openSkinMenu('lakukaracha')">
-                    <div class="char-avatar lakukaracha">😼</div>
-                    <h3>Лакукарача</h3>
-                    <p>2-й урок</p>
+                    <div class="char-avatar lakukaracha">😼</div><h3>Лакукарача</h3><p>2-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-amelie" onclick="openSkinMenu('amelie')">
-                    <div class="char-avatar amelie">🐰</div>
-                    <h3>Амели</h3>
-                    <p>3-й урок</p>
+                    <div class="char-avatar amelie" id="avatar-amelie">🐰</div><h3>Амели</h3><p>3-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-homa" onclick="openSkinMenu('homa')">
-                    <div class="char-avatar homa" id="avatar-homa">🐹</div>
-                    <h3>Хома</h3>
-                    <p>4-й урок</p>
+                    <div class="char-avatar homa" id="avatar-homa">🐹</div><h3>Хома</h3><p>4-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-pineapple" onclick="openSkinMenu('pineapple')">
-                    <div class="char-avatar pineapple" id="avatar-pineapple">🍍</div>
-                    <h3>Ананас Спинкинт</h3>
-                    <p>5-й урок</p>
+                    <div class="char-avatar pineapple" id="avatar-pineapple">🍍</div><h3>Ананас Спинкинт</h3><p>5-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-watermelon" onclick="openSkinMenu('watermelon')">
-                    <div class="char-avatar watermelon" id="avatar-watermelon">🍉</div>
-                    <h3>Секретный Арбуз</h3>
-                    <p>6-й урок</p>
+                    <div class="char-avatar watermelon" id="avatar-watermelon">🍉</div><h3>Секретный Арбуз</h3><p>6-й урок</p>
                 </div>
             </div>
         </div>
 
-        <!-- Вкладка 4: Магазин -->
         <div class="tab-content" id="tab-shop">
             <div class="grid-layout">
                 <!-- Скин Золотой Арбуз -->
@@ -398,12 +368,29 @@
                     <button class="equip-btn" id="equip-halloween-pineapple" onclick="openSkinMenu('pineapple')" style="display:none;">Выбрать</button>
                     <p id="lock-text-halloween-pineapple" style="margin-top:10px; color:#cbd5e1; font-size:12px;">Шанс выпадения из сундука (30%)</p>
                 </div>
+
+                <!-- НОВОЕ: Скин Розовая Амели (Бесплатно) -->
+                <div class="shop-card" id="shop-card-pink-amelie">
+                    <div class="promo-badge">Подарок!</div>
+                    <div class="char-avatar amelie pink-skin" style="pointer-events: none;">🐰</div>
+                    <h3>Розовая Амели</h3>
+                    <p style="color: var(--pink-color); font-weight: bold; font-size: 13px; margin-top: 5px;">Бесплатный скин в честь открытия игры</p>
+                    <button class="buy-btn" id="buy-pink-amelie" onclick="buySkin('pink-amelie', 0)">Забрать</button>
+                    <button class="equip-btn" id="equip-pink-amelie" onclick="openSkinMenu('amelie')" style="display:none;">Выбрать</button>
+                </div>
+
+                <!-- НОВОЕ: Сундук за 300 монет -->
+                <div class="shop-card">
+                    <div class="char-avatar" style="background-color: #78350F; font-size: 40px; pointer-events: none; border-color: #b45309; box-shadow: 0 4px 0 #3b1b08;">🎁</div>
+                    <h3>Сундук удачи</h3>
+                    <p>Цена: 300 <span class="coin-icon" style="display:inline-flex; width:16px; height:16px; font-size:10px;">$</span></p>
+                    <button class="buy-btn" id="buy-chest-btn" onclick="buyChest()">Купить</button>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Модальное окно для уроков -->
     <div class="modal" id="lessonModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal('lessonModal')">✕</button>
@@ -412,19 +399,15 @@
         </div>
     </div>
 
-    <!-- Модальное окно для выбора скинов -->
     <div class="modal" id="skinModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal('skinModal')">✕</button>
             <h2 id="skinModalTitle">Выбор скина</h2>
-            <div class="skins-grid" id="skinsGrid">
-                <!-- Скины будут генерироваться тут -->
-            </div>
+            <div class="skins-grid" id="skinsGrid"></div>
         </div>
     </div>
 
     <script>
-        // База заданий
         const lessonsData = {
             'Past Simple': [
                 { q: "I ___ to school yesterday.", opts: ["go", "went", "gone"], c: 1 },
@@ -567,7 +550,6 @@
         const CUPS_PER_CORRECT = 10;
         const COINS_PER_CORRECT = 15;
 
-        // Определяем Путь Наград
         const rewardsPath = [
             { cups: 50, type: 'coins', amount: 1000, title: '1000 монет', icon: '💰' },
             { cups: 100, type: 'chest', amount: 1, title: 'Сундук', icon: '🎁' },
@@ -580,7 +562,6 @@
             { cups: 1000, type: 'coins', amount: 2000, title: '2000 монет', icon: '💰' }
         ];
 
-        // База всех скинов в игре
         const allSkins = {
             'watermelon': [
                 { id: 'default', name: 'Обычный', icon: '🍉', class: '' },
@@ -594,9 +575,12 @@
                 { id: 'default', name: 'Обычный', icon: '🍍', class: '' },
                 { id: 'halloween-pineapple', name: 'Хэллоуин', icon: '🍍', class: 'halloween-skin' }
             ],
+            'amelie': [
+                { id: 'default', name: 'Обычный', icon: '🐰', class: '' },
+                { id: 'pink-amelie', name: 'Розовая', icon: '🐰', class: 'pink-skin' }
+            ],
             'fruzi': [{ id: 'default', name: 'Обычный', icon: '🐔', class: '' }],
-            'lakukaracha': [{ id: 'default', name: 'Обычный', icon: '😼', class: '' }],
-            'amelie': [{ id: 'default', name: 'Обычный', icon: '🐰', class: '' }]
+            'lakukaracha': [{ id: 'default', name: 'Обычный', icon: '😼', class: '' }]
         };
 
         let currentUser = "";
@@ -604,12 +588,7 @@
         let totalCoins = 0;
         let totalCups = 0;
         
-        // Инвентарь пользователя
-        let inventory = {
-            skins: [],       
-            equipped: {},    
-            claimedRewards: [] 
-        };
+        let inventory = { skins: [], equipped: {}, claimedRewards: [] };
 
         const modal = document.getElementById('lessonModal');
         const titleElement = document.getElementById('lessonTitle');
@@ -634,7 +613,6 @@
             document.getElementById(`tab-${tabName}`).classList.add('active');
         }
 
-        // Меню выбора скинов
         function openSkinMenu(petId) {
             const card = document.getElementById(`page-pet-${petId}`);
             if (card.classList.contains('locked')) {
@@ -669,7 +647,7 @@
                         if (!inventory.equipped) inventory.equipped = {};
                         inventory.equipped[petId] = skin.id;
                         saveProgress();
-                        openSkinMenu(petId); // Перерисовываем меню
+                        openSkinMenu(petId);
                     };
                 } else if (!isOwned) {
                     div.innerHTML += `<p style="font-size:10px; color:#EF4444; margin-top:5px;">Не открыт</p>`;
@@ -803,7 +781,6 @@
             }
         }
 
-        // --- НАГРАДЫ (TROPHY ROAD) ---
         function renderRewards() {
             rewardsTrack.innerHTML = '';
             rewardsPath.forEach((reward, index) => {
@@ -878,7 +855,19 @@
             }
         }
 
-        // --- МАГАЗИН И СКИНЫ ---
+        function buyChest() {
+            if (totalCoins >= 300) {
+                totalCoins -= 300;
+                coinsDisplay.innerText = totalCoins;
+                updateShopUI();
+                
+                openChest();
+                saveProgress();
+            } else {
+                alert('Недостаточно монет для покупки сундука!');
+            }
+        }
+
         function updateShopUI() {
             // Золотой арбуз
             const buyGold = document.getElementById('buy-gold-watermelon');
@@ -914,22 +903,44 @@
                 lockTextHalloween.style.display = 'block';
                 equipHalloween.style.display = 'none';
             }
+
+            // Розовая Амели
+            const buyPinkAmelie = document.getElementById('buy-pink-amelie');
+            const equipPinkAmelie = document.getElementById('equip-pink-amelie');
+            if (inventory.skins.includes('pink-amelie')) {
+                buyPinkAmelie.style.display = 'none';
+                equipPinkAmelie.style.display = 'block';
+            } else {
+                buyPinkAmelie.style.display = 'block';
+                equipPinkAmelie.style.display = 'none';
+            }
+
+            // Сундук
+            const buyChestBtn = document.getElementById('buy-chest-btn');
+            if (totalCoins < 300) {
+                buyChestBtn.disabled = true;
+                buyChestBtn.innerText = 'Не хватает монет';
+            } else {
+                buyChestBtn.disabled = false;
+                buyChestBtn.innerText = 'Купить (300)';
+            }
         }
 
         function buySkin(skinId, price) {
+            if (inventory.skins.includes(skinId)) return; 
+            
             if (totalCoins >= price) {
                 totalCoins -= price;
                 coinsDisplay.innerText = totalCoins;
                 inventory.skins.push(skinId);
                 saveProgress();
-                alert('Покупка успешна! Скин добавлен в инвентарь.');
+                alert('Успешно! Скин добавлен в инвентарь.');
             } else {
                 alert('Недостаточно монет!');
             }
         }
 
         function updateSkinsUI() {
-            // Арбуз
             const avatarWatermelon = document.getElementById('avatar-watermelon');
             if (inventory.equipped && inventory.equipped['watermelon'] === 'gold-watermelon') {
                 avatarWatermelon.classList.add('gold-skin');
@@ -937,7 +948,6 @@
                 avatarWatermelon.classList.remove('gold-skin');
             }
 
-            // Хома
             const avatarHoma = document.getElementById('avatar-homa');
             if (inventory.equipped && inventory.equipped['homa'] === 'newyear-homa') {
                 avatarHoma.classList.add('newyear-skin');
@@ -945,12 +955,18 @@
                 avatarHoma.classList.remove('newyear-skin');
             }
 
-            // Спинкинт
             const avatarPineapple = document.getElementById('avatar-pineapple');
             if (inventory.equipped && inventory.equipped['pineapple'] === 'halloween-pineapple') {
                 avatarPineapple.classList.add('halloween-skin');
             } else {
                 avatarPineapple.classList.remove('halloween-skin');
+            }
+
+            const avatarAmelie = document.getElementById('avatar-amelie');
+            if (inventory.equipped && inventory.equipped['amelie'] === 'pink-amelie') {
+                avatarAmelie.classList.add('pink-skin');
+            } else {
+                avatarAmelie.classList.remove('pink-skin');
             }
         }
 
