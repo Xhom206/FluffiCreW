@@ -27,6 +27,7 @@
             --newyear-red: #DC2626;
             --pink-color: #EC4899;
             --soccer-blue: #1D4ED8;
+            --bear-brown: #92400E;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -133,6 +134,7 @@
         .char-avatar.homa { background-color: var(--brown); }
         .char-avatar.pineapple { background-color: var(--pineapple-color); color: var(--black); border-color: var(--yellow); }
         .char-avatar.watermelon { background-color: var(--watermelon-color); border-color: #ef4444; }
+        .char-avatar.mikhail { background-color: var(--bear-brown); border-color: #FCD34D; }
         
         /* Скины */
         .char-avatar.watermelon.gold-skin { 
@@ -158,7 +160,6 @@
             box-shadow: 0 0 15px #F472B6, 0 4px 0 #831843;
             color: #fff;
         }
-        /* Футбольный Фрузи */
         .char-avatar.fruzi.soccer-skin {
             background: linear-gradient(135deg, #1D4ED8, #1E3A8A);
             border-color: #93C5FD;
@@ -346,17 +347,17 @@
                 <div class="char-card locked" id="page-pet-amelie" onclick="openSkinMenu('amelie')">
                     <div class="char-avatar amelie" id="avatar-amelie">🐰</div><h3>Амели</h3><p>3-й урок</p>
                 </div>
+                <div class="char-card locked" id="page-pet-mikhail" onclick="openSkinMenu('mikhail')">
+                    <div class="char-avatar mikhail" id="avatar-mikhail">🐻</div><h3>Мишка Михаил</h3><p>4-й урок</p>
+                </div>
                 <div class="char-card locked" id="page-pet-homa" onclick="openSkinMenu('homa')">
-                    <div class="char-avatar homa" id="avatar-homa">🐹</div><h3>Хома</h3><p>4-й урок</p>
+                    <div class="char-avatar homa" id="avatar-homa">🐹</div><h3>Хома</h3><p>5-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-pineapple" onclick="openSkinMenu('pineapple')">
-                    <div class="char-avatar pineapple" id="avatar-pineapple">🍍</div><h3>Ананас Спинкинт</h3><p>5-й урок</p>
+                    <div class="char-avatar pineapple" id="avatar-pineapple">🍍</div><h3>Ананас Спинкинт</h3><p>6-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-watermelon" onclick="openSkinMenu('watermelon')">
-                    <div class="char-avatar watermelon" id="avatar-watermelon">🍉</div><h3>Секретный Арбуз</h3><p>6-й урок</p>
-                </div>
-                <div class="char-card locked" id="page-pet-isareit" onclick="openSkinMenu('isareit')">
-                    <div class="char-avatar" style="background-color: #4B5563;">🔤</div><h3>Мистер Грамматик</h3><p>7-й урок</p>
+                    <div class="char-avatar watermelon" id="avatar-watermelon">🍉</div><h3>Секретный Арбуз</h3><p>7-й урок</p>
                 </div>
             </div>
         </div>
@@ -438,7 +439,7 @@
     </div>
 
     <script>
-        // Теперь каждый урок содержит теорию (theory) и вопросы (questions)
+        // Структура данных с правильным порядком и теорией
         const lessonsData = {
             'Past Simple': {
                 theory: `
@@ -540,6 +541,39 @@
                     { q: "You ___ learning new words.", opts: ["am", "is", "are"], c: 2 }
                 ]
             },
+            'Is, Are, It': {
+                theory: `
+                    <h3>Глагол To Be (Is / Are) и местоимение It</h3>
+                    <p>Глагол <strong>to be</strong> (быть, являться) — самый важный в английском. В настоящем времени у него три формы: am, is, are.</p>
+                    <ul>
+                        <li><strong>Is</strong> — используется с единственным числом (He, She, It). Пример: He <em>is</em> a student. It <em>is</em> a cat.</li>
+                        <li><strong>Are</strong> — используется с множественным числом (We, You, They). Пример: They <em>are</em> friends.</li>
+                        <li><strong>It</strong> — переводится как "это" (когда мы указываем на предмет) или "оно" (для животных и неодушевленных предметов).</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "___ is a big dog.", opts: ["It", "They", "Are"], c: 0 },
+                    { q: "She ___ my sister.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "They ___ in the park.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "___ are my friends.", opts: ["He", "She", "They"], c: 2 },
+                    { q: "___ is very cold today.", opts: ["It", "We", "They"], c: 0 },
+                    { q: "The cat ___ sleeping.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "We ___ students.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "How old ___ you?", opts: ["is", "are", "am"], c: 1 },
+                    { q: "___ is my book.", opts: ["It", "They", "Are"], c: 0 },
+                    { q: "My mom and dad ___ at home.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "This ___ an apple.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "___ are playing football.", opts: ["He", "She", "They"], c: 2 },
+                    { q: "I ___ very happy.", opts: ["is", "are", "am"], c: 2 },
+                    { q: "The books ___ on the table.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "___ is raining outside.", opts: ["It", "He", "They"], c: 0 },
+                    { q: "You ___ a good friend.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "He ___ from London.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "___ is a nice day.", opts: ["It", "They", "We"], c: 0 },
+                    { q: "My shoes ___ dirty.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "What time ___ it?", opts: ["is", "are", "am"], c: 0 }
+                ]
+            },
             'Present Continuous 2': {
                 theory: `
                     <h3>Present Continuous: Правописание глаголов</h3>
@@ -638,45 +672,12 @@
                     { q: "I eat ___ egg for breakfast.", opts: ["a", "an", "the"], c: 1 },
                     { q: "___ sky is blue.", opts: ["A", "An", "The"], c: 2 }
                 ]
-            },
-            'Is, Are, It': {
-                theory: `
-                    <h3>Глагол To Be (Is / Are) и местоимение It</h3>
-                    <p>Глагол <strong>to be</strong> (быть, являться) — самый важный в английском. В настоящем времени у него три формы: am, is, are.</p>
-                    <ul>
-                        <li><strong>Is</strong> — используется с единственным числом (He, She, It). Пример: He <em>is</em> a student. It <em>is</em> a cat.</li>
-                        <li><strong>Are</strong> — используется с множественным числом (We, You, They). Пример: They <em>are</em> friends.</li>
-                        <li><strong>It</strong> — переводится как "это" (когда мы указываем на предмет) или "оно" (для животных и неодушевленных предметов).</li>
-                    </ul>
-                `,
-                questions: [
-                    { q: "___ is a big dog.", opts: ["It", "They", "Are"], c: 0 },
-                    { q: "She ___ my sister.", opts: ["is", "are", "am"], c: 0 },
-                    { q: "They ___ in the park.", opts: ["is", "are", "am"], c: 1 },
-                    { q: "___ are my friends.", opts: ["He", "She", "They"], c: 2 },
-                    { q: "___ is very cold today.", opts: ["It", "We", "They"], c: 0 },
-                    { q: "The cat ___ sleeping.", opts: ["is", "are", "am"], c: 0 },
-                    { q: "We ___ students.", opts: ["is", "are", "am"], c: 1 },
-                    { q: "How old ___ you?", opts: ["is", "are", "am"], c: 1 },
-                    { q: "___ is my book.", opts: ["It", "They", "Are"], c: 0 },
-                    { q: "My mom and dad ___ at home.", opts: ["is", "are", "am"], c: 1 },
-                    { q: "This ___ an apple.", opts: ["is", "are", "am"], c: 0 },
-                    { q: "___ are playing football.", opts: ["He", "She", "They"], c: 2 },
-                    { q: "I ___ very happy.", opts: ["is", "are", "am"], c: 2 },
-                    { q: "The books ___ on the table.", opts: ["is", "are", "am"], c: 1 },
-                    { q: "___ is raining outside.", opts: ["It", "He", "They"], c: 0 },
-                    { q: "You ___ a good friend.", opts: ["is", "are", "am"], c: 1 },
-                    { q: "He ___ from London.", opts: ["is", "are", "am"], c: 0 },
-                    { q: "___ is a nice day.", opts: ["It", "They", "We"], c: 0 },
-                    { q: "My shoes ___ dirty.", opts: ["is", "are", "am"], c: 1 },
-                    { q: "What time ___ it?", opts: ["is", "are", "am"], c: 0 }
-                ]
             }
         };
 
         const lessonTitles = Object.keys(lessonsData);
         const totalLevels = lessonTitles.length;
-        const unlockOrder = ['fruzi', 'lakukaracha', 'amelie', 'homa', 'pineapple', 'watermelon', 'isareit'];
+        const unlockOrder = ['fruzi', 'lakukaracha', 'amelie', 'mikhail', 'homa', 'pineapple', 'watermelon'];
         
         const CUPS_PER_CORRECT = 10;
         const COINS_PER_CORRECT = 15;
@@ -715,7 +716,7 @@
                 { id: 'soccer-fruzi', name: 'Футбольный', icon: '🐔', class: 'soccer-skin' }
             ],
             'lakukaracha': [{ id: 'default', name: 'Обычный', icon: '😼', class: '' }],
-            'isareit': [{ id: 'default', name: 'Обычный', icon: '🔤', class: '' }]
+            'mikhail': [{ id: 'default', name: 'Обычный', icon: '🐻', class: '' }]
         };
 
         let currentUser = "";
@@ -758,7 +759,7 @@
             const petNames = {
                 'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 
                 'homa': 'Хома', 'pineapple': 'Ананас Спинкинт', 'watermelon': 'Секретный Арбуз',
-                'isareit': 'Мистер Грамматик'
+                'mikhail': 'Мишка Михаил'
             };
             skinModalTitle.innerText = `Облик: ${petNames[petId]}`;
             skinsGrid.innerHTML = '';
@@ -1136,10 +1137,10 @@
                 if (levelsDone === 6) {
                     alert("Поздравляем! Вся банда в сборе! Ты открыл секретного персонажа: Ананас Спинкинт 🍍");
                 } else if (levelsDone === 7) {
-                    alert("Ого! Ты прошел все уроки и открыл Секретного Арбуза 🍉 и Мистера Грамматика 🔤!");
+                    alert("Ого! Ты прошел все уроки и открыл Секретного Арбуза 🍉 и Мишку Михаила 🐻!");
                 } else if (levelsDone < unlockOrder.length) {
                     const newPetId = unlockOrder[levelsDone - 1];
-                    const petNames = { 'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 'homa': 'Хома', 'pineapple': 'Ананас Спинкинт', 'watermelon': 'Секретный Арбуз' };
+                    const petNames = { 'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 'mikhail': 'Мишка Михаил', 'homa': 'Хома', 'pineapple': 'Ананас Спинкинт', 'watermelon': 'Секретный Арбуз' };
                     alert(`Уровень пройден! Ты открыл нового члена банды: ${petNames[newPetId]}! Загляни во вкладку "Персонажи".`);
                 } else {
                     alert(`Уровень пройден!`);
@@ -1151,7 +1152,6 @@
             titleElement.innerText = `Урок: ${topic}`;
             contentElement.innerHTML = '';
 
-            // 1. Показываем Теорию
             const theoryBlock = document.createElement('div');
             theoryBlock.className = 'theory-box';
             theoryBlock.innerHTML = lessonsData[topic].theory;
@@ -1167,7 +1167,6 @@
             
             modal.style.display = 'flex';
 
-            // 2. По клику рендерим вопросы
             startBtn.onclick = () => {
                 contentElement.innerHTML = '';
                 const questions = lessonsData[topic].questions; 
