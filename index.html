@@ -26,6 +26,7 @@
             --halloween-orange: #EA580C;
             --newyear-red: #DC2626;
             --pink-color: #EC4899;
+            --soccer-blue: #1D4ED8;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -157,6 +158,13 @@
             box-shadow: 0 0 15px #F472B6, 0 4px 0 #831843;
             color: #fff;
         }
+        /* Футбольный Фрузи */
+        .char-avatar.fruzi.soccer-skin {
+            background: linear-gradient(135deg, #1D4ED8, #1E3A8A);
+            border-color: #93C5FD;
+            box-shadow: 0 0 15px #3B82F6, 0 4px 0 #1E3A8A;
+            color: #fff;
+        }
 
         .char-card h3, .shop-card h3 { font-size: 16px; margin-bottom: 5px; color: var(--yellow); }
         .char-card p, .shop-card p { font-size: 12px; color: #cbd5e1; }
@@ -254,6 +262,16 @@
         }
         .modal-content h2 { margin-bottom: 20px; color: var(--yellow); text-align: center; border-bottom: 2px solid var(--black); padding-bottom: 10px; }
         
+        /* Стили для теории */
+        .theory-box {
+            background-color: var(--black); padding: 20px; border-radius: 15px;
+            border: 3px solid var(--brown); margin-bottom: 20px; font-size: 15px; line-height: 1.6;
+        }
+        .theory-box h3 { color: var(--yellow); margin-bottom: 10px; font-size: 18px; }
+        .theory-box p { margin-bottom: 10px; }
+        .theory-box ul { margin-left: 20px; margin-bottom: 10px; }
+        .theory-box li { margin-bottom: 5px; }
+
         .skins-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 15px;
         }
@@ -303,7 +321,7 @@
                 <span class="user-nick" id="displayNick">Гость</span>
                 <div class="cups-counter">🏆 <span id="cupsDisplay">0</span></div>
                 <div class="coins-counter"><div class="coin-icon">$</div><span id="coinsDisplay">0</span></div>
-                <div class="progress-counter" id="progressDisplay">Пройдено: 0 / 6</div>
+                <div class="progress-counter" id="progressDisplay">Пройдено: 0 / 7</div>
             </div>
         </header>
 
@@ -320,7 +338,7 @@
         <div class="tab-content" id="tab-characters">
             <div class="grid-layout">
                 <div class="char-card locked" id="page-pet-fruzi" onclick="openSkinMenu('fruzi')">
-                    <div class="char-avatar fruzi">🐔</div><h3>Фрузи</h3><p>1-й урок</p>
+                    <div class="char-avatar fruzi" id="avatar-fruzi">🐔</div><h3>Фрузи</h3><p>1-й урок</p>
                 </div>
                 <div class="char-card locked" id="page-pet-lakukaracha" onclick="openSkinMenu('lakukaracha')">
                     <div class="char-avatar lakukaracha">😼</div><h3>Лакукарача</h3><p>2-й урок</p>
@@ -337,6 +355,9 @@
                 <div class="char-card locked" id="page-pet-watermelon" onclick="openSkinMenu('watermelon')">
                     <div class="char-avatar watermelon" id="avatar-watermelon">🍉</div><h3>Секретный Арбуз</h3><p>6-й урок</p>
                 </div>
+                <div class="char-card locked" id="page-pet-isareit" onclick="openSkinMenu('isareit')">
+                    <div class="char-avatar" style="background-color: #4B5563;">🔤</div><h3>Мистер Грамматик</h3><p>7-й урок</p>
+                </div>
             </div>
         </div>
 
@@ -351,6 +372,15 @@
                     <button class="equip-btn" id="equip-gold-watermelon" onclick="openSkinMenu('watermelon')" style="display:none;">Выбрать</button>
                 </div>
                 
+                <!-- Скин Футбольный Фрузи -->
+                <div class="shop-card">
+                    <div class="char-avatar fruzi soccer-skin" style="pointer-events: none;">🐔</div>
+                    <h3>Футбольный Фрузи</h3>
+                    <p>Цена: 500 <span class="coin-icon" style="display:inline-flex; width:16px; height:16px; font-size:10px;">$</span></p>
+                    <button class="buy-btn" id="buy-soccer-fruzi" onclick="buySkin('soccer-fruzi', 500)">Купить</button>
+                    <button class="equip-btn" id="equip-soccer-fruzi" onclick="openSkinMenu('fruzi')" style="display:none;">Выбрать</button>
+                </div>
+
                 <!-- Скин Новогодняя Хома -->
                 <div class="shop-card" id="shop-card-newyear-homa">
                     <div class="char-avatar homa newyear-skin" style="pointer-events: none;">🐹</div>
@@ -369,7 +399,7 @@
                     <p id="lock-text-halloween-pineapple" style="margin-top:10px; color:#cbd5e1; font-size:12px;">Шанс выпадения из сундука (30%)</p>
                 </div>
 
-                <!-- НОВОЕ: Скин Розовая Амели (Бесплатно) -->
+                <!-- Скин Розовая Амели (Бесплатно) -->
                 <div class="shop-card" id="shop-card-pink-amelie">
                     <div class="promo-badge">Подарок!</div>
                     <div class="char-avatar amelie pink-skin" style="pointer-events: none;">🐰</div>
@@ -379,7 +409,7 @@
                     <button class="equip-btn" id="equip-pink-amelie" onclick="openSkinMenu('amelie')" style="display:none;">Выбрать</button>
                 </div>
 
-                <!-- НОВОЕ: Сундук за 300 монет -->
+                <!-- Сундук за 300 монет -->
                 <div class="shop-card">
                     <div class="char-avatar" style="background-color: #78350F; font-size: 40px; pointer-events: none; border-color: #b45309; box-shadow: 0 4px 0 #3b1b08;">🎁</div>
                     <h3>Сундук удачи</h3>
@@ -408,144 +438,245 @@
     </div>
 
     <script>
+        // Теперь каждый урок содержит теорию (theory) и вопросы (questions)
         const lessonsData = {
-            'Past Simple': [
-                { q: "I ___ to school yesterday.", opts: ["go", "went", "gone"], c: 1 },
-                { q: "She ___ a new dress last week.", opts: ["buy", "bought", "buys"], c: 1 },
-                { q: "We ___ football two days ago.", opts: ["play", "played", "playing"], c: 1 },
-                { q: "He ___ his homework yesterday.", opts: ["did", "do", "does"], c: 0 },
-                { q: "They ___ to the cinema last night.", opts: ["go", "went", "gone"], c: 1 },
-                { q: "I ___ breakfast at 8 am.", opts: ["have", "had", "has"], c: 1 },
-                { q: "She ___ a letter to her friend.", opts: ["write", "wrote", "written"], c: 1 },
-                { q: "We ___ in the park last Sunday.", opts: ["walk", "walked", "walking"], c: 1 },
-                { q: "He ___ his car last month.", opts: ["sell", "sold", "sells"], c: 1 },
-                { q: "They ___ a cake for my birthday.", opts: ["make", "made", "making"], c: 1 },
-                { q: "I ___ him at the party.", opts: ["see", "saw", "seen"], c: 1 },
-                { q: "She ___ her keys yesterday.", opts: ["lose", "lost", "loses"], c: 1 },
-                { q: "We ___ a movie last night.", opts: ["watch", "watched", "watching"], c: 1 },
-                { q: "He ___ his leg last week.", opts: ["break", "broke", "broken"], c: 1 },
-                { q: "They ___ in London in 2010.", opts: ["live", "lived", "living"], c: 1 },
-                { q: "I ___ a book yesterday.", opts: ["read", "readed", "reading"], c: 0 },
-                { q: "She ___ the window.", opts: ["open", "opened", "opening"], c: 1 },
-                { q: "We ___ dinner at 7 pm.", opts: ["have", "had", "has"], c: 1 },
-                { q: "He ___ to the gym yesterday.", opts: ["go", "went", "gone"], c: 1 },
-                { q: "They ___ us a present.", opts: ["give", "gave", "given"], c: 1 }
-            ],
-            'Past Simple 2': [
-                { q: "___ you go to the park yesterday?", opts: ["Did", "Do", "Does"], c: 0 },
-                { q: "I didn't ___ TV last night.", opts: ["watch", "watched", "watching"], c: 0 },
-                { q: "Where ___ you go last summer?", opts: ["did", "do", "are"], c: 0 },
-                { q: "She didn't ___ her homework.", opts: ["do", "did", "does"], c: 0 },
-                { q: "___ he play football yesterday?", opts: ["Did", "Does", "Is"], c: 0 },
-                { q: "We didn't ___ to the party.", opts: ["go", "went", "gone"], c: 0 },
-                { q: "What ___ you buy at the shop?", opts: ["did", "do", "does"], c: 0 },
-                { q: "I didn't ___ breakfast today.", opts: ["have", "had", "has"], c: 0 },
-                { q: "___ they finish the project?", opts: ["Did", "Do", "Are"], c: 0 },
-                { q: "He didn't ___ the truth.", opts: ["tell", "told", "telling"], c: 0 },
-                { q: "When ___ she arrive?", opts: ["did", "do", "does"], c: 0 },
-                { q: "We didn't ___ the game.", opts: ["win", "won", "winning"], c: 0 },
-                { q: "___ you see him yesterday?", opts: ["Did", "Do", "Are"], c: 0 },
-                { q: "I didn't ___ the email.", opts: ["send", "sent", "sending"], c: 0 },
-                { q: "Why ___ he leave early?", opts: ["did", "do", "does"], c: 0 },
-                { q: "She didn't ___ the book.", opts: ["read", "readed", "reading"], c: 0 },
-                { q: "___ it rain yesterday?", opts: ["Did", "Do", "Is"], c: 0 },
-                { q: "They didn't ___ the car.", opts: ["sell", "sold", "selling"], c: 0 },
-                { q: "How ___ you learn English?", opts: ["did", "do", "are"], c: 0 },
-                { q: "I didn't ___ him at the station.", opts: ["see", "saw", "seen"], c: 0 }
-            ],
-            'Present Continuous': [
-                { q: "I ___ reading a book now.", opts: ["am", "is", "are"], c: 0 },
-                { q: "She ___ playing tennis.", opts: ["am", "is", "are"], c: 1 },
-                { q: "They ___ watching TV.", opts: ["am", "is", "are"], c: 2 },
-                { q: "He ___ doing his homework.", opts: ["am", "is", "are"], c: 1 },
-                { q: "We ___ going to the park.", opts: ["am", "is", "are"], c: 2 },
-                { q: "You ___ listening to music.", opts: ["am", "is", "are"], c: 2 },
-                { q: "It ___ raining outside.", opts: ["am", "is", "are"], c: 1 },
-                { q: "The cat ___ sleeping.", opts: ["am", "is", "are"], c: 1 },
-                { q: "The children ___ playing.", opts: ["am", "is", "are"], c: 2 },
-                { q: "My mother ___ cooking dinner.", opts: ["am", "is", "are"], c: 1 },
-                { q: "I ___ working right now.", opts: ["am", "is", "are"], c: 0 },
-                { q: "She ___ writing a letter.", opts: ["am", "is", "are"], c: 1 },
-                { q: "We ___ studying English.", opts: ["am", "is", "are"], c: 2 },
-                { q: "He ___ driving a car.", opts: ["am", "is", "are"], c: 1 },
-                { q: "They ___ eating lunch.", opts: ["am", "is", "are"], c: 2 },
-                { q: "The dog ___ barking.", opts: ["am", "is", "are"], c: 1 },
-                { q: "I ___ drinking coffee.", opts: ["am", "is", "are"], c: 0 },
-                { q: "She ___ singing a song.", opts: ["am", "is", "are"], c: 1 },
-                { q: "We ___ cleaning the house.", opts: ["am", "is", "are"], c: 2 },
-                { q: "You ___ learning new words.", opts: ["am", "is", "are"], c: 2 }
-            ],
-            'Present Continuous 2': [
-                { q: "I am ___ (run) in the park.", opts: ["runing", "running", "run"], c: 1 },
-                { q: "She is ___ (write) a test.", opts: ["writeing", "writing", "wrote"], c: 1 },
-                { q: "They are ___ (swim) in the pool.", opts: ["swiming", "swimming", "swim"], c: 1 },
-                { q: "He is ___ (sit) on the chair.", opts: ["siting", "sitting", "sit"], c: 1 },
-                { q: "We are ___ (make) a cake.", opts: ["makeing", "making", "made"], c: 1 },
-                { q: "I am not ___ (watch) TV.", opts: ["watch", "watching", "watched"], c: 1 },
-                { q: "She isn't ___ (listen) to me.", opts: ["listen", "listening", "listened"], c: 1 },
-                { q: "They aren't ___ (play) football.", opts: ["play", "playing", "played"], c: 1 },
-                { q: "Are you ___ (work) now?", opts: ["work", "working", "worked"], c: 1 },
-                { q: "Is he ___ (sleep)?", opts: ["sleep", "sleeping", "slept"], c: 1 },
-                { q: "What are you ___ (do)?", opts: ["do", "doing", "did"], c: 1 },
-                { q: "He is ___ (get) dressed.", opts: ["geting", "getting", "get"], c: 1 },
-                { q: "She is ___ (stop) the car.", opts: ["stoping", "stopping", "stop"], c: 1 },
-                { q: "They are ___ (run) fast.", opts: ["runing", "running", "ran"], c: 1 },
-                { q: "I am ___ (begin) to understand.", opts: ["begining", "beginning", "began"], c: 1 },
-                { q: "He is ___ (lie) on the sofa.", opts: ["lieing", "lying", "lied"], c: 1 },
-                { q: "We are ___ (die) of laughter.", opts: ["dieing", "dying", "died"], c: 1 },
-                { q: "She is ___ (tie) her shoes.", opts: ["tieing", "tying", "tied"], c: 1 },
-                { q: "I am ___ (have) lunch.", opts: ["haveing", "having", "had"], c: 1 },
-                { q: "They are ___ (travel) to Spain.", opts: ["traveling", "travelling", "travel"], c: 0 }
-            ],
-            'Future Simple': [
-                { q: "I ___ go to school tomorrow.", opts: ["will", "am", "did"], c: 0 },
-                { q: "She ___ call you later.", opts: ["will", "is", "was"], c: 0 },
-                { q: "They ___ visit us next week.", opts: ["will", "are", "were"], c: 0 },
-                { q: "He ___ help you with your work.", opts: ["will", "is", "was"], c: 0 },
-                { q: "We ___ have a party on Sunday.", opts: ["will", "are", "were"], c: 0 },
-                { q: "You ___ like this movie.", opts: ["will", "are", "were"], c: 0 },
-                { q: "I ___ not (won't) tell anyone.", opts: ["will", "am", "did"], c: 0 },
-                { q: "She ___ not (won't) come to the meeting.", opts: ["will", "is", "was"], c: 0 },
-                { q: "They ___ not (won't) buy a new car.", opts: ["will", "are", "were"], c: 0 },
-                { q: "He ___ not (won't) forget about it.", opts: ["will", "is", "was"], c: 0 },
-                { q: "___ you help me, please?", opts: ["Will", "Are", "Do"], c: 0 },
-                { q: "___ she be at home tomorrow?", opts: ["Will", "Is", "Was"], c: 0 },
-                { q: "I think it ___ rain tomorrow.", opts: ["will", "is", "was"], c: 0 },
-                { q: "Maybe I ___ go to the cinema.", opts: ["will", "am", "did"], c: 0 },
-                { q: "I promise I ___ do it.", opts: ["will", "am", "did"], c: 0 },
-                { q: "We ___ travel to London next year.", opts: ["will", "are", "were"], c: 0 },
-                { q: "He ___ be 20 years old next month.", opts: ["will", "is", "was"], c: 0 },
-                { q: "They ___ win the game, I'm sure.", opts: ["will", "are", "were"], c: 0 },
-                { q: "I ___ buy some bread on my way home.", opts: ["will", "am", "did"], c: 0 },
-                { q: "She ___ start her new job soon.", opts: ["will", "is", "was"], c: 0 }
-            ],
-            'Articles': [
-                { q: "I have ___ apple.", opts: ["a", "an", "the"], c: 1 },
-                { q: "She is ___ doctor.", opts: ["a", "an", "the"], c: 0 },
-                { q: "___ sun is shining.", opts: ["A", "An", "The"], c: 2 },
-                { q: "We saw ___ elephant at the zoo.", opts: ["a", "an", "the"], c: 1 },
-                { q: "He is ___ best student in our class.", opts: ["a", "an", "the"], c: 2 },
-                { q: "I want to buy ___ new car.", opts: ["a", "an", "the"], c: 0 },
-                { q: "Can you close ___ door, please?", opts: ["a", "an", "the"], c: 2 },
-                { q: "She eats ___ orange every day.", opts: ["a", "an", "the"], c: 1 },
-                { q: "___ moon is bright tonight.", opts: ["A", "An", "The"], c: 2 },
-                { q: "He is ___ honest man.", opts: ["a", "an", "the"], c: 1 },
-                { q: "I need ___ umbrella.", opts: ["a", "an", "the"], c: 1 },
-                { q: "They live in ___ big house.", opts: ["a", "an", "the"], c: 0 },
-                { q: "___ Earth is our planet.", opts: ["A", "An", "The"], c: 2 },
-                { q: "I saw ___ cat in the garden.", opts: ["a", "an", "the"], c: 0 },
-                { q: "She is ___ university student.", opts: ["a", "an", "the"], c: 0 },
-                { q: "We had ___ wonderful time.", opts: ["a", "an", "the"], c: 0 },
-                { q: "He plays ___ guitar very well.", opts: ["a", "an", "the"], c: 2 },
-                { q: "My mother is ___ teacher.", opts: ["a", "an", "the"], c: 0 },
-                { q: "I eat ___ egg for breakfast.", opts: ["a", "an", "the"], c: 1 },
-                { q: "___ sky is blue.", opts: ["A", "An", "The"], c: 2 }
-            ]
+            'Past Simple': {
+                theory: `
+                    <h3>Past Simple (Прошедшее простое время)</h3>
+                    <p>Используется для действий, которые произошли в прошлом и уже завершились.</p>
+                    <ul>
+                        <li><strong>Утверждение:</strong> Подлежащее + глагол с окончанием <em>-ed</em> (или 2-я форма неправильного глагола). <br>Пример: I <em>went</em> (go) to school yesterday.</li>
+                        <li><strong>Отрицание:</strong> Подлежащее + <em>did not (didn't)</em> + глагол в 1-й форме. <br>Пример: She <em>didn't go</em> to school.</li>
+                        <li><strong>Вопрос:</strong> <em>Did</em> + подлежащее + глагол в 1-й форме. <br>Пример: <em>Did</em> you <em>go</em> to school?</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "I ___ to school yesterday.", opts: ["go", "went", "gone"], c: 1 },
+                    { q: "She ___ a new dress last week.", opts: ["buy", "bought", "buys"], c: 1 },
+                    { q: "We ___ football two days ago.", opts: ["play", "played", "playing"], c: 1 },
+                    { q: "He ___ his homework yesterday.", opts: ["did", "do", "does"], c: 0 },
+                    { q: "They ___ to the cinema last night.", opts: ["go", "went", "gone"], c: 1 },
+                    { q: "I ___ breakfast at 8 am.", opts: ["have", "had", "has"], c: 1 },
+                    { q: "She ___ a letter to her friend.", opts: ["write", "wrote", "written"], c: 1 },
+                    { q: "We ___ in the park last Sunday.", opts: ["walk", "walked", "walking"], c: 1 },
+                    { q: "He ___ his car last month.", opts: ["sell", "sold", "sells"], c: 1 },
+                    { q: "They ___ a cake for my birthday.", opts: ["make", "made", "making"], c: 1 },
+                    { q: "I ___ him at the party.", opts: ["see", "saw", "seen"], c: 1 },
+                    { q: "She ___ her keys yesterday.", opts: ["lose", "lost", "loses"], c: 1 },
+                    { q: "We ___ a movie last night.", opts: ["watch", "watched", "watching"], c: 1 },
+                    { q: "He ___ his leg last week.", opts: ["break", "broke", "broken"], c: 1 },
+                    { q: "They ___ in London in 2010.", opts: ["live", "lived", "living"], c: 1 },
+                    { q: "I ___ a book yesterday.", opts: ["read", "readed", "reading"], c: 0 },
+                    { q: "She ___ the window.", opts: ["open", "opened", "opening"], c: 1 },
+                    { q: "We ___ dinner at 7 pm.", opts: ["have", "had", "has"], c: 1 },
+                    { q: "He ___ to the gym yesterday.", opts: ["go", "went", "gone"], c: 1 },
+                    { q: "They ___ us a present.", opts: ["give", "gave", "given"], c: 1 }
+                ]
+            },
+            'Past Simple 2': {
+                theory: `
+                    <h3>Past Simple: Вопросы и Отрицания</h3>
+                    <p>В этом уроке мы тренируем построение вопросов и отрицаний в прошедшем времени.</p>
+                    <ul>
+                        <li>Для вопросов используем вспомогательный глагол <strong>Did</strong> в начале предложения.</li>
+                        <li>Для отрицаний используем <strong>didn't</strong> (did not) перед смысловым глаголом.</li>
+                        <li>Важно: смысловой глагол всегда возвращается в свою первую (начальную) форму!</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "___ you go to the park yesterday?", opts: ["Did", "Do", "Does"], c: 0 },
+                    { q: "I didn't ___ TV last night.", opts: ["watch", "watched", "watching"], c: 0 },
+                    { q: "Where ___ you go last summer?", opts: ["did", "do", "are"], c: 0 },
+                    { q: "She didn't ___ her homework.", opts: ["do", "did", "does"], c: 0 },
+                    { q: "___ he play football yesterday?", opts: ["Did", "Does", "Is"], c: 0 },
+                    { q: "We didn't ___ to the party.", opts: ["go", "went", "gone"], c: 0 },
+                    { q: "What ___ you buy at the shop?", opts: ["did", "do", "does"], c: 0 },
+                    { q: "I didn't ___ breakfast today.", opts: ["have", "had", "has"], c: 0 },
+                    { q: "___ they finish the project?", opts: ["Did", "Do", "Are"], c: 0 },
+                    { q: "He didn't ___ the truth.", opts: ["tell", "told", "telling"], c: 0 },
+                    { q: "When ___ she arrive?", opts: ["did", "do", "does"], c: 0 },
+                    { q: "We didn't ___ the game.", opts: ["win", "won", "winning"], c: 0 },
+                    { q: "___ you see him yesterday?", opts: ["Did", "Do", "Are"], c: 0 },
+                    { q: "I didn't ___ the email.", opts: ["send", "sent", "sending"], c: 0 },
+                    { q: "Why ___ he leave early?", opts: ["did", "do", "does"], c: 0 },
+                    { q: "She didn't ___ the book.", opts: ["read", "readed", "reading"], c: 0 },
+                    { q: "___ it rain yesterday?", opts: ["Did", "Do", "Is"], c: 0 },
+                    { q: "They didn't ___ the car.", opts: ["sell", "sold", "selling"], c: 0 },
+                    { q: "How ___ you learn English?", opts: ["did", "do", "are"], c: 0 },
+                    { q: "I didn't ___ him at the station.", opts: ["see", "saw", "seen"], c: 0 }
+                ]
+            },
+            'Present Continuous': {
+                theory: `
+                    <h3>Present Continuous (Настоящее длительное)</h3>
+                    <p>Используется для действий, которые происходят прямо сейчас, в момент речи.</p>
+                    <ul>
+                        <li><strong>Формула:</strong> Подлежащее + am/is/are + глагол с окончанием <em>-ing</em>.</li>
+                        <li><strong>I</strong> = am (I am reading)</li>
+                        <li><strong>He/She/It</strong> = is (He is reading)</li>
+                        <li><strong>We/You/They</strong> = are (They are reading)</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "I ___ reading a book now.", opts: ["am", "is", "are"], c: 0 },
+                    { q: "She ___ playing tennis.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "They ___ watching TV.", opts: ["am", "is", "are"], c: 2 },
+                    { q: "He ___ doing his homework.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "We ___ going to the park.", opts: ["am", "is", "are"], c: 2 },
+                    { q: "You ___ listening to music.", opts: ["am", "is", "are"], c: 2 },
+                    { q: "It ___ raining outside.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "The cat ___ sleeping.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "The children ___ playing.", opts: ["am", "is", "are"], c: 2 },
+                    { q: "My mother ___ cooking dinner.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "I ___ working right now.", opts: ["am", "is", "are"], c: 0 },
+                    { q: "She ___ writing a letter.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "We ___ studying English.", opts: ["am", "is", "are"], c: 2 },
+                    { q: "He ___ driving a car.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "They ___ eating lunch.", opts: ["am", "is", "are"], c: 2 },
+                    { q: "The dog ___ barking.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "I ___ drinking coffee.", opts: ["am", "is", "are"], c: 0 },
+                    { q: "She ___ singing a song.", opts: ["am", "is", "are"], c: 1 },
+                    { q: "We ___ cleaning the house.", opts: ["am", "is", "are"], c: 2 },
+                    { q: "You ___ learning new words.", opts: ["am", "is", "are"], c: 2 }
+                ]
+            },
+            'Present Continuous 2': {
+                theory: `
+                    <h3>Present Continuous: Правописание глаголов</h3>
+                    <p>Когда мы добавляем окончание <em>-ing</em> к глаголам, есть несколько правил:</p>
+                    <ul>
+                        <li>Обычно просто добавляем <em>-ing</em>: play -> playing.</li>
+                        <li>Если глагол заканчивается на немую <em>-e</em>, она убирается: write -> writing.</li>
+                        <li>Если глагол короткий и заканчивается на согласную (после гласной), согласная удваивается: run -> running, swim -> swimming.</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "I am ___ (run) in the park.", opts: ["runing", "running", "run"], c: 1 },
+                    { q: "She is ___ (write) a test.", opts: ["writeing", "writing", "wrote"], c: 1 },
+                    { q: "They are ___ (swim) in the pool.", opts: ["swiming", "swimming", "swim"], c: 1 },
+                    { q: "He is ___ (sit) on the chair.", opts: ["siting", "sitting", "sit"], c: 1 },
+                    { q: "We are ___ (make) a cake.", opts: ["makeing", "making", "made"], c: 1 },
+                    { q: "I am not ___ (watch) TV.", opts: ["watch", "watching", "watched"], c: 1 },
+                    { q: "She isn't ___ (listen) to me.", opts: ["listen", "listening", "listened"], c: 1 },
+                    { q: "They aren't ___ (play) football.", opts: ["play", "playing", "played"], c: 1 },
+                    { q: "Are you ___ (work) now?", opts: ["work", "working", "worked"], c: 1 },
+                    { q: "Is he ___ (sleep)?", opts: ["sleep", "sleeping", "slept"], c: 1 },
+                    { q: "What are you ___ (do)?", opts: ["do", "doing", "did"], c: 1 },
+                    { q: "He is ___ (get) dressed.", opts: ["geting", "getting", "get"], c: 1 },
+                    { q: "She is ___ (stop) the car.", opts: ["stoping", "stopping", "stop"], c: 1 },
+                    { q: "They are ___ (run) fast.", opts: ["runing", "running", "ran"], c: 1 },
+                    { q: "I am ___ (begin) to understand.", opts: ["begining", "beginning", "began"], c: 1 },
+                    { q: "He is ___ (lie) on the sofa.", opts: ["lieing", "lying", "lied"], c: 1 },
+                    { q: "We are ___ (die) of laughter.", opts: ["dieing", "dying", "died"], c: 1 },
+                    { q: "She is ___ (tie) her shoes.", opts: ["tieing", "tying", "tied"], c: 1 },
+                    { q: "I am ___ (have) lunch.", opts: ["haveing", "having", "had"], c: 1 },
+                    { q: "They are ___ (travel) to Spain.", opts: ["traveling", "travelling", "travel"], c: 0 }
+                ]
+            },
+            'Future Simple': {
+                theory: `
+                    <h3>Future Simple (Простое будущее)</h3>
+                    <p>Используется для спонтанных решений, обещаний и предсказаний.</p>
+                    <ul>
+                        <li><strong>Утверждение:</strong> Подлежащее + <em>will</em> + глагол в 1-й форме. (I will go).</li>
+                        <li><strong>Отрицание:</strong> Подлежащее + <em>will not (won't)</em> + глагол. (He won't go).</li>
+                        <li><strong>Вопрос:</strong> <em>Will</em> + подлежащее + глагол. (Will you go?).</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "I ___ go to school tomorrow.", opts: ["will", "am", "did"], c: 0 },
+                    { q: "She ___ call you later.", opts: ["will", "is", "was"], c: 0 },
+                    { q: "They ___ visit us next week.", opts: ["will", "are", "were"], c: 0 },
+                    { q: "He ___ help you with your work.", opts: ["will", "is", "was"], c: 0 },
+                    { q: "We ___ have a party on Sunday.", opts: ["will", "are", "were"], c: 0 },
+                    { q: "You ___ like this movie.", opts: ["will", "are", "were"], c: 0 },
+                    { q: "I ___ not (won't) tell anyone.", opts: ["will", "am", "did"], c: 0 },
+                    { q: "She ___ not (won't) come to the meeting.", opts: ["will", "is", "was"], c: 0 },
+                    { q: "They ___ not (won't) buy a new car.", opts: ["will", "are", "were"], c: 0 },
+                    { q: "He ___ not (won't) forget about it.", opts: ["will", "is", "was"], c: 0 },
+                    { q: "___ you help me, please?", opts: ["Will", "Are", "Do"], c: 0 },
+                    { q: "___ she be at home tomorrow?", opts: ["Will", "Is", "Was"], c: 0 },
+                    { q: "I think it ___ rain tomorrow.", opts: ["will", "is", "was"], c: 0 },
+                    { q: "Maybe I ___ go to the cinema.", opts: ["will", "am", "did"], c: 0 },
+                    { q: "I promise I ___ do it.", opts: ["will", "am", "did"], c: 0 },
+                    { q: "We ___ travel to London next year.", opts: ["will", "are", "were"], c: 0 },
+                    { q: "He ___ be 20 years old next month.", opts: ["will", "is", "was"], c: 0 },
+                    { q: "They ___ win the game, I'm sure.", opts: ["will", "are", "were"], c: 0 },
+                    { q: "I ___ buy some bread on my way home.", opts: ["will", "am", "did"], c: 0 },
+                    { q: "She ___ start her new job soon.", opts: ["will", "is", "was"], c: 0 }
+                ]
+            },
+            'Articles': {
+                theory: `
+                    <h3>Articles (Артикли)</h3>
+                    <p>Артикли помогают понять, идет ли речь о чем-то конкретном или об общем понятии.</p>
+                    <ul>
+                        <li><strong>a</strong> — используется перед согласными звуками (a cat, a university).</li>
+                        <li><strong>an</strong> — используется перед гласными звуками (an apple, an hour).</li>
+                        <li><strong>the</strong> — определенный артикль, указывает на что-то конкретное или единственное в своем роде (the sun, the best student).</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "I have ___ apple.", opts: ["a", "an", "the"], c: 1 },
+                    { q: "She is ___ doctor.", opts: ["a", "an", "the"], c: 0 },
+                    { q: "___ sun is shining.", opts: ["A", "An", "The"], c: 2 },
+                    { q: "We saw ___ elephant at the zoo.", opts: ["a", "an", "the"], c: 1 },
+                    { q: "He is ___ best student in our class.", opts: ["a", "an", "the"], c: 2 },
+                    { q: "I want to buy ___ new car.", opts: ["a", "an", "the"], c: 0 },
+                    { q: "Can you close ___ door, please?", opts: ["a", "an", "the"], c: 2 },
+                    { q: "She eats ___ orange every day.", opts: ["a", "an", "the"], c: 1 },
+                    { q: "___ moon is bright tonight.", opts: ["A", "An", "The"], c: 2 },
+                    { q: "He is ___ honest man.", opts: ["a", "an", "the"], c: 1 },
+                    { q: "I need ___ umbrella.", opts: ["a", "an", "the"], c: 1 },
+                    { q: "They live in ___ big house.", opts: ["a", "an", "the"], c: 0 },
+                    { q: "___ Earth is our planet.", opts: ["A", "An", "The"], c: 2 },
+                    { q: "I saw ___ cat in the garden.", opts: ["a", "an", "the"], c: 0 },
+                    { q: "She is ___ university student.", opts: ["a", "an", "the"], c: 0 },
+                    { q: "We had ___ wonderful time.", opts: ["a", "an", "the"], c: 0 },
+                    { q: "He plays ___ guitar very well.", opts: ["a", "an", "the"], c: 2 },
+                    { q: "My mother is ___ teacher.", opts: ["a", "an", "the"], c: 0 },
+                    { q: "I eat ___ egg for breakfast.", opts: ["a", "an", "the"], c: 1 },
+                    { q: "___ sky is blue.", opts: ["A", "An", "The"], c: 2 }
+                ]
+            },
+            'Is, Are, It': {
+                theory: `
+                    <h3>Глагол To Be (Is / Are) и местоимение It</h3>
+                    <p>Глагол <strong>to be</strong> (быть, являться) — самый важный в английском. В настоящем времени у него три формы: am, is, are.</p>
+                    <ul>
+                        <li><strong>Is</strong> — используется с единственным числом (He, She, It). Пример: He <em>is</em> a student. It <em>is</em> a cat.</li>
+                        <li><strong>Are</strong> — используется с множественным числом (We, You, They). Пример: They <em>are</em> friends.</li>
+                        <li><strong>It</strong> — переводится как "это" (когда мы указываем на предмет) или "оно" (для животных и неодушевленных предметов).</li>
+                    </ul>
+                `,
+                questions: [
+                    { q: "___ is a big dog.", opts: ["It", "They", "Are"], c: 0 },
+                    { q: "She ___ my sister.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "They ___ in the park.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "___ are my friends.", opts: ["He", "She", "They"], c: 2 },
+                    { q: "___ is very cold today.", opts: ["It", "We", "They"], c: 0 },
+                    { q: "The cat ___ sleeping.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "We ___ students.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "How old ___ you?", opts: ["is", "are", "am"], c: 1 },
+                    { q: "___ is my book.", opts: ["It", "They", "Are"], c: 0 },
+                    { q: "My mom and dad ___ at home.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "This ___ an apple.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "___ are playing football.", opts: ["He", "She", "They"], c: 2 },
+                    { q: "I ___ very happy.", opts: ["is", "are", "am"], c: 2 },
+                    { q: "The books ___ on the table.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "___ is raining outside.", opts: ["It", "He", "They"], c: 0 },
+                    { q: "You ___ a good friend.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "He ___ from London.", opts: ["is", "are", "am"], c: 0 },
+                    { q: "___ is a nice day.", opts: ["It", "They", "We"], c: 0 },
+                    { q: "My shoes ___ dirty.", opts: ["is", "are", "am"], c: 1 },
+                    { q: "What time ___ it?", opts: ["is", "are", "am"], c: 0 }
+                ]
+            }
         };
 
         const lessonTitles = Object.keys(lessonsData);
         const totalLevels = lessonTitles.length;
-        const unlockOrder = ['fruzi', 'lakukaracha', 'amelie', 'homa', 'pineapple', 'watermelon'];
+        const unlockOrder = ['fruzi', 'lakukaracha', 'amelie', 'homa', 'pineapple', 'watermelon', 'isareit'];
         
         const CUPS_PER_CORRECT = 10;
         const COINS_PER_CORRECT = 15;
@@ -579,8 +710,12 @@
                 { id: 'default', name: 'Обычный', icon: '🐰', class: '' },
                 { id: 'pink-amelie', name: 'Розовая', icon: '🐰', class: 'pink-skin' }
             ],
-            'fruzi': [{ id: 'default', name: 'Обычный', icon: '🐔', class: '' }],
-            'lakukaracha': [{ id: 'default', name: 'Обычный', icon: '😼', class: '' }]
+            'fruzi': [
+                { id: 'default', name: 'Обычный', icon: '🐔', class: '' },
+                { id: 'soccer-fruzi', name: 'Футбольный', icon: '🐔', class: 'soccer-skin' }
+            ],
+            'lakukaracha': [{ id: 'default', name: 'Обычный', icon: '😼', class: '' }],
+            'isareit': [{ id: 'default', name: 'Обычный', icon: '🔤', class: '' }]
         };
 
         let currentUser = "";
@@ -622,7 +757,8 @@
 
             const petNames = {
                 'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 
-                'homa': 'Хома', 'pineapple': 'Ананас Спинкинт', 'watermelon': 'Секретный Арбуз'
+                'homa': 'Хома', 'pineapple': 'Ананас Спинкинт', 'watermelon': 'Секретный Арбуз',
+                'isareit': 'Мистер Грамматик'
             };
             skinModalTitle.innerText = `Облик: ${petNames[petId]}`;
             skinsGrid.innerHTML = '';
@@ -753,7 +889,7 @@
                 node.innerHTML = `
                     <div class="lesson-info">
                         <h3>Урок ${index + 1}: ${title}</h3>
-                        <p>${lessonsData[title].length} заданий</p>
+                        <p>${lessonsData[title].questions.length} заданий</p>
                     </div>
                     <button class="btn-play">${isCompleted ? 'Повторить' : 'Начать'}</button>
                 `;
@@ -882,6 +1018,19 @@
                 buyGold.innerText = totalCoins < 1000 ? 'Не хватает монет' : 'Купить (1000)';
             }
 
+            // Футбольный Фрузи
+            const buySoccer = document.getElementById('buy-soccer-fruzi');
+            const equipSoccer = document.getElementById('equip-soccer-fruzi');
+            if (inventory.skins.includes('soccer-fruzi')) {
+                buySoccer.style.display = 'none';
+                equipSoccer.style.display = 'block';
+            } else {
+                buySoccer.style.display = 'block';
+                equipSoccer.style.display = 'none';
+                buySoccer.disabled = totalCoins < 500;
+                buySoccer.innerText = totalCoins < 500 ? 'Не хватает монет' : 'Купить (500)';
+            }
+
             // Новогодняя Хома
             const equipNewYear = document.getElementById('equip-newyear-homa');
             const lockTextNewYear = document.getElementById('lock-text-newyear-homa');
@@ -968,6 +1117,13 @@
             } else {
                 avatarAmelie.classList.remove('pink-skin');
             }
+
+            const avatarFruzi = document.getElementById('avatar-fruzi');
+            if (inventory.equipped && inventory.equipped['fruzi'] === 'soccer-fruzi') {
+                avatarFruzi.classList.add('soccer-skin');
+            } else {
+                avatarFruzi.classList.remove('soccer-skin');
+            }
         }
 
         function markAsCompleted(topic) {
@@ -977,13 +1133,13 @@
                 renderLessons();
                 
                 const levelsDone = completedLevels.size;
-                if (levelsDone === 5) {
+                if (levelsDone === 6) {
                     alert("Поздравляем! Вся банда в сборе! Ты открыл секретного персонажа: Ананас Спинкинт 🍍");
-                } else if (levelsDone === 6) {
-                    alert("Ого! Ты прошел все уроки и открыл Секретного Арбуза 🍉!");
+                } else if (levelsDone === 7) {
+                    alert("Ого! Ты прошел все уроки и открыл Секретного Арбуза 🍉 и Мистера Грамматика 🔤!");
                 } else if (levelsDone < unlockOrder.length) {
                     const newPetId = unlockOrder[levelsDone - 1];
-                    const petNames = { 'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 'homa': 'Хома' };
+                    const petNames = { 'fruzi': 'Фрузи', 'lakukaracha': 'Лакукарача', 'amelie': 'Амели', 'homa': 'Хома', 'pineapple': 'Ананас Спинкинт', 'watermelon': 'Секретный Арбуз' };
                     alert(`Уровень пройден! Ты открыл нового члена банды: ${petNames[newPetId]}! Загляни во вкладку "Персонажи".`);
                 } else {
                     alert(`Уровень пройден!`);
@@ -994,55 +1150,75 @@
         function startLesson(topic) {
             titleElement.innerText = `Урок: ${topic}`;
             contentElement.innerHTML = '';
-            const questions = lessonsData[topic]; 
-            let answeredCount = 0;
-            let correctCount = 0;
 
-            questions.forEach((q, index) => {
-                const block = document.createElement('div');
-                block.className = 'question-block';
-                const questionText = document.createElement('p');
-                questionText.innerText = `${index + 1}. ${q.q}`;
-                block.appendChild(questionText);
-
-                const optionsDiv = document.createElement('div');
-                optionsDiv.className = 'options';
-
-                q.opts.forEach((opt, optIndex) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'option-btn';
-                    btn.innerText = opt;
-                    
-                    btn.onclick = () => {
-                        const allBtns = optionsDiv.querySelectorAll('.option-btn');
-                        allBtns.forEach(b => { b.classList.remove('correct', 'wrong'); b.disabled = true; });
-
-                        if (optIndex === q.c) {
-                            btn.classList.add('correct');
-                            btn.innerText += ' ✓';
-                            correctCount++;
-                            addRewards(COINS_PER_CORRECT, CUPS_PER_CORRECT);
-                        } else {
-                            btn.classList.add('wrong');
-                            btn.innerText += ' ✕';
-                            allBtns[q.c].classList.add('correct');
-                        }
-
-                        answeredCount++;
-                        if (answeredCount === questions.length) {
-                            if (correctCount >= Math.floor(questions.length * 0.8)) {
-                                markAsCompleted(topic);
-                            } else {
-                                alert(`Уровень не пройден. Правильных ответов: ${correctCount} из ${questions.length}. Нужно хотя бы 80%.`);
-                            }
-                        }
-                    };
-                    optionsDiv.appendChild(btn);
-                });
-                block.appendChild(optionsDiv);
-                contentElement.appendChild(block);
-            });
+            // 1. Показываем Теорию
+            const theoryBlock = document.createElement('div');
+            theoryBlock.className = 'theory-box';
+            theoryBlock.innerHTML = lessonsData[topic].theory;
+            
+            const startBtn = document.createElement('button');
+            startBtn.className = 'btn-play';
+            startBtn.style.width = '100%';
+            startBtn.style.marginTop = '15px';
+            startBtn.innerText = 'Понятно, начать задания!';
+            
+            theoryBlock.appendChild(startBtn);
+            contentElement.appendChild(theoryBlock);
+            
             modal.style.display = 'flex';
+
+            // 2. По клику рендерим вопросы
+            startBtn.onclick = () => {
+                contentElement.innerHTML = '';
+                const questions = lessonsData[topic].questions; 
+                let answeredCount = 0;
+                let correctCount = 0;
+
+                questions.forEach((q, index) => {
+                    const block = document.createElement('div');
+                    block.className = 'question-block';
+                    const questionText = document.createElement('p');
+                    questionText.innerText = `${index + 1}. ${q.q}`;
+                    block.appendChild(questionText);
+
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'options';
+
+                    q.opts.forEach((opt, optIndex) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'option-btn';
+                        btn.innerText = opt;
+                        
+                        btn.onclick = () => {
+                            const allBtns = optionsDiv.querySelectorAll('.option-btn');
+                            allBtns.forEach(b => { b.classList.remove('correct', 'wrong'); b.disabled = true; });
+
+                            if (optIndex === q.c) {
+                                btn.classList.add('correct');
+                                btn.innerText += ' ✓';
+                                correctCount++;
+                                addRewards(COINS_PER_CORRECT, CUPS_PER_CORRECT);
+                            } else {
+                                btn.classList.add('wrong');
+                                btn.innerText += ' ✕';
+                                allBtns[q.c].classList.add('correct');
+                            }
+
+                            answeredCount++;
+                            if (answeredCount === questions.length) {
+                                if (correctCount >= Math.floor(questions.length * 0.8)) {
+                                    markAsCompleted(topic);
+                                } else {
+                                    alert(`Уровень не пройден. Правильных ответов: ${correctCount} из ${questions.length}. Нужно хотя бы 80%.`);
+                                }
+                            }
+                        };
+                        optionsDiv.appendChild(btn);
+                    });
+                    block.appendChild(optionsDiv);
+                    contentElement.appendChild(block);
+                });
+            };
         }
 
         function closeModal(modalId) { 
